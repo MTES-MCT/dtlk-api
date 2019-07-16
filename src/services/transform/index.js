@@ -193,7 +193,6 @@ let transform = {
           return Array.isArray(udataAttachments) ? convertedAttachments : convertedAttachments[0]
         }
         catch (error) {
-          console.log(error)
           throw new transformErrors.UdataToAlimentationApiError(`Erreur de conversion d'un fichier joint udata`)
         }
       },
