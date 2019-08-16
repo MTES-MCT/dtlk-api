@@ -232,7 +232,7 @@ let api = {
       try {
         let resource = await api.resources.new.api(apiKey, datasetId, datafileMetadata)
         datafileMetadata.rid = resource.id
-        datafileMetadata.url = datafileMetadata.url + '/datafile/' + resource.id
+        datafileMetadata.url = datafileMetadata.url + 'datafile/' + resource.id
         return await api.resources.update.metadata(apiKey, datasetId, resource.id, datafileMetadata)
       }
       catch (error) {

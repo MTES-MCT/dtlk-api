@@ -132,11 +132,11 @@ let getTypeJob = (job) => {
   if (job.type === 'replaceDatafileMillesime') return  (job.data.millesimeDatafile === 1) && (job.progress_data.datafile.millesimes === 1) ? `Remplacement d'un fichier de données` : `Remplacement d'un millésime d'un fichier de données`
 }
 let getUrls = (job) => {
-  let ihm = `${ ihmDiffusionInternetExposedUrl }/explore/dataset/${ job.data.idDataset }/datafile/${ job.progress_data.datafile.rid }`
-  let csv = `${ apiDiffusionInternetExposedUrl }v1/datafiles/${ job.progress_data.datafile.rid }/csv?withDescriptionHeaders=true`
-  if (job.type === 'createDatafile') return { api: ihm, csv: csv }
-  if (job.type === 'addDatafileMillesime') return { api: ihm + `?millesime=${ job.data.millesimeDatafile }`, csv: csv + `&millesime=${ job.data.millesimeDatafile }` }
-  if (job.type === 'replaceDatafileMillesime') return { api: ihm + `?millesime=${ job.data.millesimeDatafile }`, csv: csv + `&millesime=${ job.data.millesimeDatafile }`}
+  let ihm = `${ ihmDiffusionInternetExposedUrl }datafile/${ job.progress_data.datafile.rid }`
+  let csv = `${ apiDiffusionInternetExposedUrl }v1/datafiles/${ job.progress_data.datafile.rid }/csv?`
+  if (job.type === 'createDatafile') return { api: ihm + `?millesime=${ job.data.millesimeDatafile }`, csv: csv + `millesime=${ job.data.millesimeDatafile }&withColumnName=true&withColumnDescription=true`}
+  if (job.type === 'addDatafileMillesime') return { api: ihm + `?millesime=${ job.data.millesimeDatafile }`, csv: csv + `millesime=${ job.data.millesimeDatafile }&withColumnName=true&withColumnDescription=true` }
+  if (job.type === 'replaceDatafileMillesime') return { api: ihm + `?millesime=${ job.data.millesimeDatafile }`,csv: csv + `millesime=${ job.data.millesimeDatafile }&withColumnName=true&withColumnDescription=true`}
 }
 
 module.exports = (job) => {

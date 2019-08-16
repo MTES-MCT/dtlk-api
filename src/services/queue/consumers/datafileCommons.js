@@ -132,7 +132,7 @@ let commons = {
         ...datafileMetadata,
         millesimes: 1,
         millesimes_info: [{ millesime: 1, rows: rows, columns: columns }],
-        url: `${ ihm_diffusion_url }/explore/dataset/${ datasetId }`
+        url: `${ ihm_diffusion_url }`
       }
       let udataDatafile = await udataApi.datafiles.new(userApiKey, datasetId, transformForUdata.alimentationApi.datafile(metadata))
       return transformForAlimentationApi.udata.datafiles(udataDatafile)
