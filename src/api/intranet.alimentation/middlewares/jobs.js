@@ -37,7 +37,7 @@ let middlewares = {
   create: {
     addDatafile: async (req, res, next) => {
       try {
-        let kueJob = await queueService.createDatafileJob.create(res.locals.user, res.locals.dataset, res.locals.datafilePayload, res.locals.uploadedFile.file)
+        let kueJob = await queueService.createDatafileJob.create(res.locals.user, res.locals.dataset, res.locals.millesime, res.locals.datafilePayload, res.locals.uploadedFile.file)
         await queueService.uploadedFileJob.remove(res.locals.uploadedFile.jobId)
         res.locals.newJob = transformForApi.kue.jobs(kueJob)
         next()
@@ -48,7 +48,7 @@ let middlewares = {
     },
     addDatafileMillesime: async (req, res, next) => {
       try {
-        let kueJob = await queueService.addDatafileMillesimeJob.create(res.locals.user, res.locals.dataset, res.locals.datafile, res.locals.uploadedFile.file)
+        let kueJob = await queueService.addDatafileMillesimeJob.create(res.locals.user,res.locals.dataset,res.locals.millesime, res.locals.datafile, res.locals.uploadedFile.file)
         await queueService.uploadedFileJob.remove(res.locals.uploadedFile.jobId)
         res.locals.newJob = transformForApi.kue.jobs(kueJob)
         next()

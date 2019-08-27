@@ -1,5 +1,6 @@
 let { transform: transformErrors } = require('../errors')
 let rowColumnsFilters = require('../../models/rowColumns')
+let moment = require('moment-timezone')
 let csvType = require('../../models/csvType')
 let { scheme: scheme_diffusion, host: host_diffusion, port: port_diffusion, path: path_diffusion } = require('../../env').api_diffusion_internet.exposed_url
 
@@ -319,7 +320,7 @@ let transform = {
                 task: kueJob.type,
                 dataset_id: kueJob.data.idDataset,
                 file_name: kueJob.data.nameFile,
-                datafile_millesime: kueJob.data.millesimeDatafile
+                datafile_millesime: moment(kueJob.data.millesimeDatafile).format('YYYY-MM')
               }
             }
             if (kueJob.type === 'createDatafile') {
@@ -534,9 +535,10 @@ let transform = {
             }
             if (mongoDatafile.extras.datalake_legal_notice) apiDatafile.legal_notice = mongoDatafile.extras.datalake_legal_notice
             for (let i = 1; i < mongoDatafile.extras.datalake_millesimes + 1; i++) {
-              let millesime = { millesime: i }
-              millesime.rows = millesimesDatafile.find(info => info.millesime === i).rows
-              millesime.columns = millesimesDatafile.find(info => info.millesime === i).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type } ))
+              let millesimeDate = millesimesDatafile.millesime
+              let millesime = { millesime: millesimeDate }
+              millesime.rows = millesimesDatafile.find(info => info.millesime === millesimeDate).rows
+              millesime.columns = millesimesDatafile.find(info => info.millesime === millesimeDate).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type } ))
               apiDatafile.millesimes.push(millesime)
             }
             if (mongoDatafile.dataset.frequency_date) apiDatafile.dataset.frequency_date = mongoDatafile.dataset.frequency_date

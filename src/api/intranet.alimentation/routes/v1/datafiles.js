@@ -82,7 +82,7 @@ router.route('/datasets/:id/datafiles/:rid/metadata')
 router.route('/datasets/:id/datafiles/:rid')
   .post(
     datafiles.checkNoAddDatafileMillesimeJobInQueue,
-    validate.tokenFileInBody,
+    validate.tokenFileAndMillesimeDateInBody,
     uploadedFiles.get,
     authorize.checkUserOnUploadedFile,
     uploadedFiles.checkCsvWithoutWarning,

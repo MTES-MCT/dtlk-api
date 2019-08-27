@@ -40,9 +40,9 @@ let addDatafileMillesimeConsumer =  queue.process('addDatafileMillesime', 1 , as
     await commons.file.process(job, result.split.totalChunks, result.split.totalLines, result.split.linesByChunk, result.headers, tempCollectionNameMongo, result)
     job.progress(95, 100, commons.result.update(result, { step: `Traitement du fichier - fin`, progress: 95 }))
 
-    job.progress(95, 100, commons.result.update(result, { step: `Ajout du millésime ${ result.datafile.millesimes + 1 } au fichier de données dans udata - démarrage` }))
-    datafile = await commons.udata.addDatafileMillesime(result.user.apiKey, job.data.idDataset, job.data.ridDatafile, result.split.totalLines, result.columns)
-    job.progress(96, 100, commons.result.update(result, { step: `Ajout du millésime ${ result.datafile.millesimes } au fichier de données dans udata - fin`, progress: 96, datafile: datafile })) // => result.datafile = { rid, title, description, millesimes, millesimes_info: { millesime, rows, columns }, url }
+    job.progress(95, 100, commons.result.update(result, { step: `Ajout du millésime ${ job.data.millesimeDatafile } au fichier de données dans udata - démarrage` }))
+    datafile = await commons.udata.addDatafileMillesime(result.user.apiKey, job.data.idDataset,job.data.millesimeDatafile, job.data.ridDatafile, result.split.totalLines, result.columns)
+    job.progress(96, 100, commons.result.update(result, { step: `Ajout du millésime ${ job.data.millesimeDatafile } au fichier de données dans udata - fin`, progress: 96, datafile: datafile })) // => result.datafile = { rid, title, description, millesimes, millesimes_info: { millesime, rows, columns }, url }
 
     job.progress(96, 100, commons.result.update(result, { step: `Mise en conformité des objets Mongo - démarrage` }))
     await commons.mongodb.adjustTempObjects(tempCollectionNameMongo, `${ result.datafile.rid }_${ result.datafile.millesimes }`)

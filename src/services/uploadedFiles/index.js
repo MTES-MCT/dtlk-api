@@ -22,6 +22,8 @@ let pathExists = async (path) => fs.existsSync(path)
 module.exports = {
   create: async (content) => {
     try {
+      console.log("aaaa")
+      console.log(content)
       let token = uuid()
       await fs.writeFileSync(`${ directory }/${ token }`, content)
       return token
@@ -272,6 +274,7 @@ module.exports = {
           let headers = []
           inputStream
             .on('data', csvObject => {
+              console.log("test")
               if (counter == 1) {
                 for (let [j, description] of csvObject.entries()) {
                   headers.push({ description: description, order: j })

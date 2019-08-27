@@ -98,6 +98,11 @@ let uploadedFileToken = {
     .label('tokenFile')
     .error((errors) => { return { message: `Le champ "tokenFile" doit être rempli avec une chaîne correspondant à un identifant de fichier téléversé` } })
 }
+let millesimeDate= {
+  millesime: Joi.date().iso().required()
+  .label('body.millesime')
+  .error((errors) => { return { message: `Le champ "millesimeDate" doit être une date valide (format ISO 8601)` } }),
+}
 let attachmentMetadata = {
   title: Joi.string().required()
     .label('body.title')
@@ -261,6 +266,7 @@ module.exports = {
   uploadedFileNameInHeader: [
     headers(uploadedFileName),
     (req, res, next) => {
+      console.log(req.body)
       let re = /(?:\.([^.]+))?$/
       let ext = re.exec(req.headers['x-uploadedfile-name'])[1]
       let allowedExtensions = require('../../../env').uploadedFiles.allowedExtensions
@@ -309,12 +315,22 @@ module.exports = {
       next()
     }
   ],
+  tokenFileAndMillesimeDateInBody: [
+    body({ ...uploadedFileToken, ...millesimeDate }),
+    (req, res, next) => {
+      res.locals.millesime = req.body.millesime
+      res.locals.tokenFile = req.body.tokenFile
+      next()
+    }
+  ],
   newDatafileInBody: [
-    body({ ...uploadedFileToken, ...datafileMetadata }),
+    body({ ...uploadedFileToken, ...datafileMetadata, ...millesimeDate }),
     (req, res, next) => {
       res.locals.datafilePayload = req.body
+      res.locals.millesime = req.body.millesime
       res.locals.tokenFile = req.body.tokenFile
       delete res.locals.datafilePayload.tokenFile
+      delete res.locals.datafilePayload.millesime
       next()
     }
   ],

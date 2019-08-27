@@ -778,7 +778,7 @@ module.exports = {
           parameters: [
             { $ref: `#/parameters/datasetIdInPath` },
             { $ref: `#/parameters/datafileRidInPath` },
-            { $ref: `#/parameters/tokenFileInBody` }
+            { $ref: `#/parameters/tokenFileAndMillesimeDateInBody` }
           ],
           security: [
             { apiKeyInHeader: [] }
@@ -1783,9 +1783,10 @@ module.exports = {
               required: [`millesime`, `rows`, `columns`],
               properties: {
                 millesime: {
-                  description: `Numéro du millésime`,
-                  type: `integer`,
-                  example: 2
+                  description: `La période concernée par les données du fichier descriptif - format YYYY-MM`,
+                  type: `string`,
+                  format: `date-time`,
+                  example: `2017-10`
                 },
                 rows: {
                   description: `Nombre de lignes dans le fichier de données`,
@@ -2084,9 +2085,10 @@ module.exports = {
                 example: `2f48a6cd-b147-4750-aa70-990a5c17f536`
               },
               datafile_millesime: {
-                description: `Numéro du millésime du fichier de données concerné par la tâche (si il s'agit d'une tâche de type replaceDatafileMillesime)`,
-                type: `integer`,
-                example: 2
+                description: `Le millésime du fichier de données concerné par la tâche (si il s'agit d'une tâche de type replaceDatafileMillesime)`,
+                type: `string`,
+                format: `date-time`,
+                example: `2017-06`
               }
             }
           },
@@ -2520,6 +2522,29 @@ module.exports = {
           }
         }
       },
+      tokenFileAndMillesimeDateInBody: {
+        name: `tokenFileAndMillesime`,
+        in: `body`,
+        description: `Identifiant du fichier téléversé et de son millésime`,
+        required: true,
+        schema: {
+          type: `object`,
+          required: [`tokenFile`,`millesime`],
+          properties: {
+            tokenFile: {
+              description: `Identifiant du fichier téléversé`,
+              type: `string`,
+              example: `6886999e-9b27-478b-8876-d9a4dbe57d5c`
+            },
+            millesime: {
+              description: `La période concernée par les données du fichier descriptif - format YYYY-MM`,
+              type: `string`,
+              format: `date-time`,
+              example: `2017-10`
+            }
+          }
+        }
+      },
       newAttachmentInBody: {
         name: `attachmentPayload`,
         in: `body`,
@@ -2596,7 +2621,7 @@ module.exports = {
         required: true,
         schema: {
           type: `object`,
-          required: [`title`, `description`, `published`, `tokenFile`],
+          required: [`title`, `description`, `published`, `millesime`, `tokenFile`],
           properties: {
             title: {
               description: `Titre du fichier descriptif`,
@@ -2630,6 +2655,12 @@ module.exports = {
               description: `Notice légale concernant le fichier de données`,
               type: `string`,
               example: `Ces données.......`
+            },
+            millesime: {
+              description: ` La période concernée par les données du fichier descriptif - format YYYY-MM`,
+              type: `string`,
+              format: `date-time`,
+              example: `2017-10`
             },
             tokenFile: {
               description: `Identifiant du fichier téléversé`,

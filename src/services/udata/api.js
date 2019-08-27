@@ -240,7 +240,7 @@ let api = {
       }
     },
     millesimes: {
-      add: async (apiKey, datasetId, datafileRid, rows, columns) => {
+      add: async (apiKey, datasetId, millesimeDatafile, datafileRid, rows, columns) => {
         try {
           let udataDatafile= await api.resources.get(apiKey, datasetId, datafileRid)
           let metadata = {
@@ -254,7 +254,7 @@ let api = {
           let millesime =  metadata.extras.datalake_millesimes + 1
           metadata.extras.datalake_millesimes = millesime
           let millesimes_info = JSON.parse(udataDatafile.extras.datalake_millesimes_info)
-          millesimes_info.push({ millesime: millesime, rows: rows, columns: columns })
+          millesimes_info.push({ millesime: millesimeDatafile, rows: rows, columns: columns })
           metadata.extras.datalake_millesimes_info = JSON.stringify(millesimes_info)
           return await api.resources.update.metadata(apiKey, datasetId, datafileRid, metadata)
         }

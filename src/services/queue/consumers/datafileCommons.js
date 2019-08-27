@@ -28,10 +28,15 @@ let commons = {
   file: {
     retrieveHeadersAndColumns: async tokenFile => {
       let headers = await uploadedFilesService.csv.headers(tokenFile)
+      console.log("ok 2")
       let columns = headers.reduce((arr, header) => {
+        console.log(arr)
+        console.log(header)
         let typeOfHeader = csvType.getHeader(header.type)
         let columnsOfHeader = typeOfHeader.columns(header.name)
+        console.log("ok 3")
         let mappingColumnsOfHeader = typeOfHeader.returnMappingColumnsObject(header.name)
+        console.log("ok 4")
         let descriptionColumns = typeOfHeader.returnDescriptionColumnsObject(header.name, header.description)
         let typeColumns = typeOfHeader.returnTypesColumnsObject(header.name)
         for (let name of columnsOfHeader) {
@@ -127,18 +132,18 @@ let commons = {
     }
   },
   udata: {
-    createDatafile: async (userApiKey, datasetId, datafileMetadata, rows, columns) => {
+    createDatafile: async (userApiKey, datasetId, datafileMetadata, millesimeDatafile, rows, columns) => {
       let metadata = {
         ...datafileMetadata,
         millesimes: 1,
-        millesimes_info: [{ millesime: 1, rows: rows, columns: columns }],
+        millesimes_info: [{ millesime: millesimeDatafile, rows: rows, columns: columns }],
         url: `${ ihm_diffusion_url }`
       }
       let udataDatafile = await udataApi.datafiles.new(userApiKey, datasetId, transformForUdata.alimentationApi.datafile(metadata))
       return transformForAlimentationApi.udata.datafiles(udataDatafile)
     },
-    addDatafileMillesime: async (userApiKey, datasetId, datafileRid, rows, columns) => {
-      let udataDatafile = await udataApi.datafiles.millesimes.add(userApiKey, datasetId, datafileRid, rows, columns)
+    addDatafileMillesime: async (userApiKey, datasetId, millesimeDatafile, datafileRid, rows, columns) => {
+      let udataDatafile = await udataApi.datafiles.millesimes.add(userApiKey, datasetId, millesimeDatafile, datafileRid, rows, columns)
       return transformForAlimentationApi.udata.datafiles(udataDatafile)
     },
     updateDatafileMillesime: async (userApiKey, datasetId, datafileRid, datafileMillesime, rows, columns) => {

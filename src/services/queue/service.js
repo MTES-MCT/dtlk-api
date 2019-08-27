@@ -1,4 +1,5 @@
 let kue = require('kue')
+let moment = require('moment-timezone')
 let queue = require('./instance')
 let { queue: errors } = require('../errors')
 let { uploadedFiles: { maxRetentionTime: uploadedFilesMaxRetentionTime } } = require('../../env')
@@ -214,14 +215,14 @@ let service = {
     }
   },
   createDatafileJob: {
-    create: async (user, dataset, datafilePayload, file) => {
+    create: async (user, dataset, millesime, datafilePayload, file) => {
       let data = {
         title: `Job createDatafile on dataset ${ dataset.id }`,
         tokenFile: file.token,
         nameFile: file.name,
         idDataset: dataset.id,
         idUser: user.id,
-        millesimeDatafile: 1,
+        millesimeDatafile: moment(millesime).format('YYYY-MM'),
         metadataDatafile: datafilePayload
       }
       return await service.job.add('createDatafile', false, data)
@@ -244,7 +245,7 @@ let service = {
     }
   },
   addDatafileMillesimeJob: {
-    create: async (user, dataset, datafile, file) => {
+    create: async (user, dataset,millesime, datafile, file) => {
       let data = {
         title: `Job addDatafileMillesime on dataset ${ dataset.id } and datafile ${ datafile.rid }`,
         tokenFile: file.token,
@@ -252,7 +253,7 @@ let service = {
         idDataset: dataset.id,
         idUser: user.id,
         ridDatafile: datafile.rid,
-        millesimeDatafile: datafile.millesimes + 1
+        millesimeDatafile: moment(millesime).format('YYYY-MM')
       }
       return await service.job.add('addDatafileMillesime', false, data)
     },
