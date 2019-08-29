@@ -534,9 +534,10 @@ module.exports = {
               required: [`millesime`, `rows`, `columns`],
               properties: {
                 millesime: {
-                  description: `Numéro du millésime`,
-                  type: `integer`,
-                  example: 2
+                  description: `La période concernée par les données du fichier descriptif - format YYYY-MM`,
+                  type: `string`,
+                  format: `date-time`,
+                  example: `2017-10`
                 },
                 rows: {
                   description: `Nombre de lignes dans le fichier de données`,
@@ -577,10 +578,10 @@ module.exports = {
             example: `2f48a6cd-b147-4750-aa70-990a5c17f536`
           },
           millesime: {
-            description: `Numéro du millésime`,
-            type: `integer`,
-            format: `int32`,
-            example: 2
+            description: `La période concernée par les données du fichier descriptif - format YYYY-MM`,
+            type: `string`,
+            format: `date-time`,
+            example: `2017-10`
           },
           title: {
             description: `Titre du fichier de données`,
@@ -623,7 +624,7 @@ module.exports = {
           weburl: {
             description: `Url pour accéder à l'interface de visualisation du millésime du fichier de données`,
             type: `string`,
-            example: `${ ihmUrl }/explore/dataset/5c49539dcd0abe0020259b1c/datafile/9c281667-1fb2-4048-942b-f84181b0dc62?millesime=2`
+            example: `${ ihmUrl }datafile/9c281667-1fb2-4048-942b-f84181b0dc62?millesime=2019-08`
           },
           created_at: {
             description: `date de création du fichier de données - format iso 8601`,
@@ -651,12 +652,12 @@ module.exports = {
           previous_millesime_href: {
             description: `Lien api du précédent millésime de ce fichier de données (peut être égale à null)`,
             type: `string`,
-            example: `${ fullApiUrl }v1/datafiles/47160e7f-a545-4099-a899-b7c92f03f682?millesime=1`
+            example: `${ fullApiUrl }v1/datafiles/47160e7f-a545-4099-a899-b7c92f03f682?millesime=2018-08`
           },
           next_millesime_href: {
             description: `Lien api du millésime suivant de ce fichier de données (peut être égale à null)`,
             type: `string`,
-            example: `${ fullApiUrl }v1/datafiles/47160e7f-a545-4099-a899-b7c92f03f682?millesime=3`
+            example: `${ fullApiUrl }v1/datafiles/47160e7f-a545-4099-a899-b7c92f03f682?millesime=2020-08`
           }
         }
       },
@@ -695,16 +696,16 @@ module.exports = {
             required: [`data`],
             properties: {
               firstPage: {
-                example: `${ fullApiUrl }v1/datafiles/47160e7f-a545-4099-a899-b7c92f03f682/rows?millesime=2&page=1&PageSize=20`
+                example: `${ fullApiUrl }v1/datafiles/47160e7f-a545-4099-a899-b7c92f03f682/rows?millesime=2019-08&page=1&PageSize=20`
               },
               previousPage: {
-                example: `${ fullApiUrl }v1/datafiles/47160e7f-a545-4099-a899-b7c92f03f682/rows?millesime=2&page=5&PageSize=20`
+                example: `${ fullApiUrl }v1/datafiles/47160e7f-a545-4099-a899-b7c92f03f682/rows?millesime=2019-08&page=5&PageSize=20`
               },
               nextPage: {
-                example: `${ fullApiUrl }v1/datafiles/47160e7f-a545-4099-a899-b7c92f03f682/rows?millesime=2&page=7&PageSize=20`
+                example: `${ fullApiUrl }v1/datafiles/47160e7f-a545-4099-a899-b7c92f03f682/rows?millesime=2019-08&page=7&PageSize=20`
               },
               lastPage: {
-                example: `${ fullApiUrl }v1/datafiles/47160e7f-a545-4099-a899-b7c92f03f682/rows?millesime=2&page=10&PageSize=20`
+                example: `${ fullApiUrl }v1/datafiles/47160e7f-a545-4099-a899-b7c92f03f682/rows?millesime=2019-08&page=10&PageSize=20`
               },
               data: {
                 type: `array`,
@@ -890,9 +891,11 @@ module.exports = {
       datafileMillesime: {
         name: `millesime`,
         in: `query`,
-        description: `millésime du fichier de données (dernier millésime si valeur omise)`,
+        description: `millésime du fichier de données (dernier millésime si valeur omise) - format YYYY-MM`,
         required: false,
-        type: `integer`
+        type: `string`,
+        format: `date-time`,
+        example: `2017-10`
       },
       withColumnName: {
         name: `withColumnName`,

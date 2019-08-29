@@ -28,15 +28,10 @@ let commons = {
   file: {
     retrieveHeadersAndColumns: async tokenFile => {
       let headers = await uploadedFilesService.csv.headers(tokenFile)
-      console.log("ok 2")
       let columns = headers.reduce((arr, header) => {
-        console.log(arr)
-        console.log(header)
         let typeOfHeader = csvType.getHeader(header.type)
         let columnsOfHeader = typeOfHeader.columns(header.name)
-        console.log("ok 3")
         let mappingColumnsOfHeader = typeOfHeader.returnMappingColumnsObject(header.name)
-        console.log("ok 4")
         let descriptionColumns = typeOfHeader.returnDescriptionColumnsObject(header.name, header.description)
         let typeColumns = typeOfHeader.returnTypesColumnsObject(header.name)
         for (let name of columnsOfHeader) {

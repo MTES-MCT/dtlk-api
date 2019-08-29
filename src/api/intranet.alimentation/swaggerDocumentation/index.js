@@ -2104,9 +2104,10 @@ module.exports = {
                 example: `2f48a6cd-b147-4750-aa70-990a5c17f536`
               },
               millesime: {
-                description: `Numéro de millésime du fichier de données`,
-                type: `integer`,
-                example: 2
+                description: `Le millésime du fichier de données`,
+                type: `string`,
+                format: `date-time`,
+                example: `2019-06`
               },
               duration: {
                 description: `Durée de la tâche en secondes`,
@@ -2726,10 +2727,11 @@ module.exports = {
       datafileMillesimeInPath: {
         name: `millesime`,
         in: `path`,
-        description: `Numéro de millésime du fichier de données`,
+        description: `millésime du fichier de données`,
         required: true,
-        type: `integer`,
-        example: 1
+        type: `string`,
+        format: `date-time`,
+        example: `2019-07`
       },
       jobIdInPath: {
         name: `id`,

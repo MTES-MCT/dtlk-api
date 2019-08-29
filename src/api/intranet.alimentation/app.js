@@ -16,7 +16,7 @@ let app = express()
 // request logging. dev: console | production: file
 app.use(morgan(logs))
 
-// parse request (json in body and params in querystring and eventually raw data) and attache them to req.body
+// parse request ( in body and params in querystring and eventually raw data) and attache them to req.body
 app.use(bodyParser.json({ type: 'application/json' }))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.raw({ type: 'application/octet-stream', limit: '1gb' }))

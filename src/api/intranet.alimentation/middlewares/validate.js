@@ -140,9 +140,9 @@ let datafileMetadata = {
     .error((errors) => { return { message: `Le champ "legal_notice" doit être une chaîne de caractères` } })
 }
 let datafileMillesime = {
-  millesime: Joi.number().integer().required()
+  millesime: Joi.date().iso().required()
     .label('path.millesime')
-    .error((errors) => { return { message: `Le champ "millesime" de l'url doit être un nombre entier` } })
+    .error((errors) => { return { message: `Le champ "millesime" de l'url doit être une date valide (format ISO 8601)` } })
 }
 let jobId = {
   id: Joi.number().integer().required()
@@ -349,9 +349,13 @@ module.exports = {
     }
   ],
   datafileMillesimeInPath: [
-    params(datafileMillesime, { joi: { allowUnknown: true }}),
+    params(datafileMillesime, { joi: { allowUnknown: true }}), 
     (req, res, next) => {
-      if (req.params.millesime > res.locals.datafile.millesimes) throw new apiErrors.NotFoundError(`Le millésime ${req.params.millesime} n'existe pas pour le fichier de données ${res.locals.datafile.rid}`)
+      let listMillesime = res.locals.datafile.millesimes_info.reduce((accumulatorMillesimes, currentMillesime) => {
+        accumulatorMillesimes.push(currentMillesime.millesime)
+        return accumulatorMillesimes
+      }, []) 
+      if (!listMillesime.includes(req.params.millesime)) throw new apiErrors.NotFoundError(`Le millésime ${req.params.millesime} n'existe pas pour le fichier de données ${res.locals.datafile.rid}`)
       res.locals.datafileMillesime = req.params.millesime
       next()
     }

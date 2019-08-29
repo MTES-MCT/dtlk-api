@@ -539,7 +539,9 @@ let mongoService = {
           { '$skip': criteria.pageSize * (criteria.page - 1) },
           { '$limit': criteria.pageSize }
         ])
+        console.log(rows)
         let total = await MongoRow.countDocuments(criteria.filters)
+        console.log(total)
         return { total: total, rows: rows }
       }
       catch (error) {

@@ -66,9 +66,9 @@ let datafileRid = {
     .error( errors => ( { message: `Le champ rid de l'url doit être rempli et doit être au format guid` } ) )
 }
 let datafileMillesime = {
-  millesime: Joi.number().greater(0).integer().empty()
+  millesime: Joi.date().iso()
     .label('querystring.millesime')
-    .error( errors => ( { message: `Le champ "millesime" lorqu'il est utilisé doit être un entier strictement positif` } ) )
+    .error( errors => ( { message: `Le champ "millesime" lorqu'il est utilisé doit être une date valide - format YYYY-MM` } ) )
 }
 let rowsPagination = columns => {
   let selectables = columns.map(column => column.name)
@@ -178,7 +178,7 @@ module.exports = {
   datafileMillesimeInQuery: [
     query(datafileMillesime, { joi: { allowUnknown: true } }),
     (req, res, next) => {
-      res.locals.datafileMillesime = parseInt(req.query.millesime)
+      res.locals.datafileMillesime = req.query.millesime
       next()
     }
   ],

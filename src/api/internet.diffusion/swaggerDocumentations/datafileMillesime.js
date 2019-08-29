@@ -113,9 +113,9 @@ let specs = {
               example: datafileMillesimed.rid
             },
             millesime: {
-              description: `Numéro du millésime`,
-              type: `integer`,
-              format: `int32`,
+              description: `La période concernée par les données du fichier descriptif - format YYYY-MM`,
+              type: `string`,
+              format: `date-time`,
               example: datafileMillesimed.millesime
             },
             title: {

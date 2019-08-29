@@ -478,11 +478,16 @@ let transform = {
                 if (datafile.extras.datalake_temporal_coverage_start) apiDatafile.temporal_coverage.start = datafile.extras.datalake_temporal_coverage_start
                 if (datafile.extras.datalake_temporal_coverage_end) apiDatafile.temporal_coverage.end = datafile.extras.datalake_temporal_coverage_end
               }
+              let listMillesime = millesimesDatafile.reduce((accumulatorMillesimes, currentMillesime) => {
+                accumulatorMillesimes.push(currentMillesime.millesime)
+                return accumulatorMillesimes
+              }, [])
+
               if (datafile.extras.datalake_legal_notice) apiDatafile.legal_notice = datafile.extras.datalake_legal_notice
               for (let i = 1; i < datafile.extras.datalake_millesimes + 1; i++) {
-                let millesime = { millesime: i }
-                millesime.rows = millesimesDatafile.find(info => info.millesime === i).rows
-                millesime.columns = millesimesDatafile.find(info => info.millesime === i).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type } ))
+                let millesime = { millesime: listMillesime[i-1] }
+                millesime.rows = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).rows
+                millesime.columns = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type } ))
                 apiDatafile.millesimes.push(millesime)
               }
               apiDataset.datafiles.push(apiDatafile)
@@ -533,12 +538,16 @@ let transform = {
               if (mongoDatafile.extras.datalake_temporal_coverage_start) apiDatafile.temporal_coverage.start = mongoDatafile.extras.datalake_temporal_coverage_start
               if (mongoDatafile.extras.datalake_temporal_coverage_end) apiDatafile.temporal_coverage.end = mongoDatafile.extras.datalake_temporal_coverage_end
             }
+            let listMillesime = millesimesDatafile.reduce((accumulatorMillesimes, currentMillesime) => {
+              accumulatorMillesimes.push(currentMillesime.millesime)
+              return accumulatorMillesimes
+            }, [])
+
             if (mongoDatafile.extras.datalake_legal_notice) apiDatafile.legal_notice = mongoDatafile.extras.datalake_legal_notice
             for (let i = 1; i < mongoDatafile.extras.datalake_millesimes + 1; i++) {
-              let millesimeDate = millesimesDatafile.millesime
-              let millesime = { millesime: millesimeDate }
-              millesime.rows = millesimesDatafile.find(info => info.millesime === millesimeDate).rows
-              millesime.columns = millesimesDatafile.find(info => info.millesime === millesimeDate).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type } ))
+              let millesime = { millesime: listMillesime[i-1] }
+              millesime.rows = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).rows
+              millesime.columns = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type } ))
               apiDatafile.millesimes.push(millesime)
             }
             if (mongoDatafile.dataset.frequency_date) apiDatafile.dataset.frequency_date = mongoDatafile.dataset.frequency_date

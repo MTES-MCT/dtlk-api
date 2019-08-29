@@ -14,7 +14,7 @@ let createDatafileConsumer =  queue.process('createDatafile', 1 , async function
   // processing job
   try {
     job.progress(0, 100, commons.result.update(result, { step: `Début du traitement du fichier ${ job.data.nameFile } - Ajout d'un fichier de données au jeu de données ${ job.data.idDataset }` }))
-    console.log("OK 1")
+
     let user = await commons.retrieve.user(job.data.idUser)
     job.progress(0, 100, commons.result.update(result, { user: user })) // => result.user = { id, last_name, first_name, email, apiKey }
 
@@ -42,7 +42,7 @@ let createDatafileConsumer =  queue.process('createDatafile', 1 , async function
     job.progress(96, 100, commons.result.update(result, { step: `Création du fichier de données dans udata - fin`, progress: 96, datafile: datafile })) // => result.datafile = { rid, title, description, millesimes, millesimes_info: { millesime, rows, columns }, url }
 
     job.progress(96, 100, commons.result.update(result, { step: `Mise en conformité des objets Mongo - démarrage` }))
-    await commons.mongodb.adjustTempObjects(tempCollectionNameMongo, `${ result.datafile.rid }_1`)
+    await commons.mongodb.adjustTempObjects(tempCollectionNameMongo, `${ result.datafile.rid }_${ job.data.millesimeDatafile }`)
     job.progress(99, 100, commons.result.update(result, { step: `Mise en conformité des objets Mongo - fin`, progress: 99 }))
 
     job.progress(99, 100, commons.result.update(result, { step: `Purge des objets temporaires - démarrage` }))
