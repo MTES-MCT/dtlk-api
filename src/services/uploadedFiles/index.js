@@ -22,8 +22,6 @@ let pathExists = async (path) => fs.existsSync(path)
 module.exports = {
   create: async (content) => {
     try {
-      console.log("aaaa")
-      console.log(content)
       let token = uuid()
       await fs.writeFileSync(`${ directory }/${ token }`, content)
       return token

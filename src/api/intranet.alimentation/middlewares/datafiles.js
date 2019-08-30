@@ -33,10 +33,9 @@ let middlewares = {
   millesimes: {
     delete: async (req, res, next) => {
       try {
-        if (res.locals.datafileMillesime != res.locals.datafile.millesimes) throw new apiErrors.BusinessRulesError(`Vous ne pouvez supprimer que le dernier millésime (${ res.locals.datafile.millesimes }) d'un fichier de données`)
         if (res.locals.datafile.millesimes == 1) throw new apiErrors.BusinessRulesError(`Il n'y a qu'un millésime dans le fichier de données, vous ne pouvez pas le supprimer. Sinon vous pouvez supprimer entièrement le fichier de données`)
         mongoService.datafiles.millesime.delete(res.locals.datafileRid, res.locals.datafileMillesime)
-        res.locals.datafile.millesimes_info = res.locals.datafile.millesimes_info.filter( millesime_info => millesime_info.millesime < res.locals.datafile.millesimes)
+        res.locals.datafile.millesimes_info = res.locals.datafile.millesimes_info.filter( millesime_info => millesime_info.millesime != res.locals.datafileMillesime)
         res.locals.datafile.millesimes = res.locals.datafile.millesimes - 1
         let udataDatafile = await udataApi.datafiles.update.metadata(res.locals.apiKey, res.locals.dataset.id, res.locals.datafileRid, transformForUdata.alimentationApi.datafile(res.locals.datafile))
         res.locals.datafile = transformForApi.udata.datafiles(udataDatafile)
