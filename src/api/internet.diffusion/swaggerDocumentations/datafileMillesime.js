@@ -113,7 +113,7 @@ let specs = {
               example: datafileMillesimed.rid
             },
             millesime: {
-              description: `La période concernée par les données du fichier descriptif - format YYYY-MM`,
+              description: `Le millésime du fichier descriptif - format YYYY-MM`,
               type: `string`,
               format: `date-time`,
               example: datafileMillesimed.millesime

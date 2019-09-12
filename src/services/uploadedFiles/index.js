@@ -272,7 +272,6 @@ module.exports = {
           let headers = []
           inputStream
             .on('data', csvObject => {
-              console.log("test")
               if (counter == 1) {
                 for (let [j, description] of csvObject.entries()) {
                   headers.push({ description: description, order: j })

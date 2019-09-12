@@ -48,7 +48,7 @@ module.exports = {
       res.locals.datafileMillesime = res.locals.datafileMillesime ? moment(res.locals.datafileMillesime).format('YYYY-MM') : listMillesime[mongoDatafile.extras.datalake_millesimes - 1]
       if (!listMillesime.includes(res.locals.datafileMillesime)) return next(new apiErrors.NotFoundError(`Le millésime ${ res.locals.datafileMillesime } n'existe pas pour le fichier de données avec le rid ${ res.locals.datafileRid }`))
       res.locals.datafileMillesimed = await transformForApi.mongo.datafileMillesime(mongoDatafile, res.locals.datafileMillesime)
-      res.locals.datafileMillesimed.previous_millesime_href = ((listMillesime.indexOf(res.locals.datafileMillesime) + 1) > 1) ? `${ apiPublicUrl }v1/datafiles/${ res.locals.datafileRid }?millesime=${ listMillesime[listMillesime.indexOf(res.locals.datafileMillesime)] }` : null
+      res.locals.datafileMillesimed.previous_millesime_href = ((listMillesime.indexOf(res.locals.datafileMillesime) + 1) > 1) ? `${ apiPublicUrl }v1/datafiles/${ res.locals.datafileRid }?millesime=${ listMillesime[listMillesime.indexOf(res.locals.datafileMillesime) - 1] }` : null
       res.locals.datafileMillesimed.next_millesime_href = ((listMillesime.indexOf(res.locals.datafileMillesime) + 1) < mongoDatafile.extras.datalake_millesimes) ? `${ apiPublicUrl }v1/datafiles/${ res.locals.datafileRid }?millesime=${ listMillesime[listMillesime.indexOf(res.locals.datafileMillesime) + 1] }` : null
       return next()
     } catch (error) {

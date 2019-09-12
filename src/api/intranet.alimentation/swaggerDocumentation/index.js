@@ -2538,7 +2538,7 @@ module.exports = {
               example: `6886999e-9b27-478b-8876-d9a4dbe57d5c`
             },
             millesime: {
-              description: `La période concernée par les données du fichier descriptif - format YYYY-MM`,
+              description: `Le millésime du fichier descriptif - format YYYY-MM`,
               type: `string`,
               format: `date-time`,
               example: `2017-10`
@@ -2658,7 +2658,7 @@ module.exports = {
               example: `Ces données.......`
             },
             millesime: {
-              description: ` La période concernée par les données du fichier descriptif - format YYYY-MM`,
+              description: `Le millésime du fichier descriptif - format YYYY-MM`,
               type: `string`,
               format: `date-time`,
               example: `2017-10`

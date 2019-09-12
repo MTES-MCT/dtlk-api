@@ -240,7 +240,7 @@ let api = {
       }
     },
     millesimes: {
-      add: async (apiKey, datasetId, millesimeDatafile, datafileRid, rows, columns) => {
+      add: async (apiKey, datasetId, datafileRid, millesimeDatafile, rows, columns) => {
         try {
           let udataDatafile= await api.resources.get(apiKey, datasetId, datafileRid)
           let metadata = {

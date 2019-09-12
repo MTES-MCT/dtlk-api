@@ -1,4 +1,6 @@
-let Joi = require('joi')
+let BaseJoi = require('joi')
+let Extension = require('joi-date-extensions')
+let Joi = BaseJoi.extend(Extension)
 let { params, query, headers, body } = require('express-joi-validation')({ passError: true })
 let topics  = require('../../../models/topics')
 let frequencies  = require('../../../models/frequencies')
@@ -99,9 +101,9 @@ let uploadedFileToken = {
     .error((errors) => { return { message: `Le champ "tokenFile" doit être rempli avec une chaîne correspondant à un identifant de fichier téléversé` } })
 }
 let millesimeDate= {
-  millesime: Joi.date().iso().required()
+  millesime: Joi.date().format('YYYY-MM').required()
   .label('body.millesime')
-  .error((errors) => { return { message: `Le champ "millesimeDate" doit être une date valide (format ISO 8601)` } }),
+  .error((errors) => { return { message: `Le champ "millesime" doit être une date valide (YYYY-MM)` } }),
 }
 let attachmentMetadata = {
   title: Joi.string().required()
@@ -140,9 +142,9 @@ let datafileMetadata = {
     .error((errors) => { return { message: `Le champ "legal_notice" doit être une chaîne de caractères` } })
 }
 let datafileMillesime = {
-  millesime: Joi.date().iso().required()
+  millesime: Joi.date().format('YYYY-MM').required()
     .label('path.millesime')
-    .error((errors) => { return { message: `Le champ "millesime" de l'url doit être une date valide (format ISO 8601)` } })
+    .error((errors) => { return { message: `Le champ "millesime" de l'url doit être une date valide (YYYY-MM)` } })
 }
 let jobId = {
   id: Joi.number().integer().required()

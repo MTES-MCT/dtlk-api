@@ -1,4 +1,6 @@
-let Joi = require('joi')
+let BaseJoi = require('joi')
+let Extension = require('joi-date-extensions')
+let Joi = BaseJoi.extend(Extension)
 let { params, query, headers, body } = require('express-joi-validation')({ passError: true })
 let rowColumns = require('../../../models/rowColumns')
 let { api: apiErrors } = require('../../../services/errors')
@@ -66,7 +68,7 @@ let datafileRid = {
     .error( errors => ( { message: `Le champ rid de l'url doit être rempli et doit être au format guid` } ) )
 }
 let datafileMillesime = {
-  millesime: Joi.date().iso()
+  millesime: Joi.date().format('YYYY-MM')
     .label('querystring.millesime')
     .error( errors => ( { message: `Le champ "millesime" lorqu'il est utilisé doit être une date valide - format YYYY-MM` } ) )
 }
