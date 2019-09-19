@@ -138,6 +138,7 @@ module.exports = {
             { $ref: `#/parameters/datafileMillesime` },
             { $ref: `#/parameters/withColumnName` },
             { $ref: `#/parameters/withColumnDescription` },
+            { $ref: `#/parameters/withColumnUnit` },
             { $ref: `#/parameters/orderByRows` },
             { $ref: `#/parameters/columns`}
           ],
@@ -912,6 +913,14 @@ module.exports = {
         required: true,
         type: `boolean`,
         default: true
+      },
+      withColumnUnit: {
+        name: `withColumnUnit`,
+        in: `query`,
+        description: `faut-il ajouter l'unité des colonnes en entête du fichier csv ?`,
+        required: true,
+        type: `boolean`,
+        default: false
       },
       orderByRows: {
         name: `orderBy`,

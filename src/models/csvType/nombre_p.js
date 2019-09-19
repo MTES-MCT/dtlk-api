@@ -40,6 +40,11 @@ module.exports = p => {
       let typeColumns = {}
       typeColumns[name] = 'number'
       return typeColumns
+    },
+    returnUnitColumnsObject: (name, unit) => {
+      let unitColumns = {}
+      unitColumns[name] = unit
+      return unitColumns
     }
   }
 }
