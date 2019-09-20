@@ -159,8 +159,8 @@ module.exports = {
         properties: {
           pageSize: {
             description: `le nombre de lignes dans la page`,
-            type: `integer`,
-            example: 20
+            type: `string`,
+            example: '30'
           },
           page: {
             description: `le numéro de la page actuelle`,
@@ -795,11 +795,10 @@ module.exports = {
         name: `pageSize`,
         in: `query`,
         description: `Nombre de lignes par page`,
-        required: true,
-        type: `integer`,
-        format: `int32`,
-        default: 20,
-        enum: [10, 20, 50, 100]
+        required: false,
+        type: `string`,
+        default: 'all',
+        enum: ['all','10','20','50','100']
       },
       orderByDatasets: {
         name: `orderBy`,

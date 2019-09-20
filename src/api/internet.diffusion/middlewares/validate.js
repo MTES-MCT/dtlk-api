@@ -34,9 +34,9 @@ let datasetsPagination = {
   page: Joi.number().greater(0).integer().required()
     .label('querystring.page')
     .error( errors => ( { message: 'Le champ "page" est requis et doit être un entier strictement positif' } ) ),
-  pageSize: Joi.number().integer().valid([10, 20 ,50 ,100]).required()
+  pageSize: Joi.array().items(Joi.string().valid(['all','10','20','50','100'])).single().optional()
     .label('querystring.pageSize')
-    .error( errors => ( { message: 'Le champ "pageSize" est requis et doit avoir une des valeurs autorisées (10, 20, 50, 100)' } ) ),
+    .error( errors => ( { message: 'Le champ "pageSize" est requis et doit avoir une des valeurs autorisées (all, 10, 20, 50, 100)' } ) ),
   orderBy: Joi.array().items(Joi.string().valid('title','-title','last_modified','-last_modified')).single().optional().default(['-last_modified'])
     .label('querystring.orderBy')
     .error( errors => ( { message: `Le champ "orderBy" lorsqu'il est utilisé doit contenir une ou plusieurs des valeurs autorisées ('title','-title','last_modified','-last_modified')` } ) )
@@ -55,9 +55,9 @@ let datafilesPagination = {
   page: Joi.number().greater(0).integer().required()
     .label('querystring.page')
     .error( errors => ( { message: `Le champ "page" est requis et doit être un entier strictement positif` } ) ),
-  pageSize: Joi.number().integer().valid([10,20,50,100]).required()
+    pageSize: Joi.array().items(Joi.string().valid(['all','10','20','50','100'])).single().optional()
     .label('querystring.pageSize')
-    .error( errors => ( { message: `Le champ "pageSize" est requis et doit avoir une des valeurs autorisées (20, 50, 100)` } ) ),
+    .error( errors => ( { message: 'Le champ "pageSize" est requis et doit avoir une des valeurs autorisées (all, 10, 20, 50, 100)' } ) ),
   orderBy: Joi.array().items(Joi.string().valid('title','-title','last_modified','-last_modified')).single().optional().default(['-last_modified'])
     .label('querystring.orderBy')
     .error( errors => ( { message: `Le champ "orderBy" lorsqu'il est utilisé doit contenir une ou plusieurs des valeurs autorisées ('title','-title','last_modified','-last_modified')` } ) )
@@ -80,9 +80,9 @@ let rowsPagination = columns => {
     page: Joi.number().greater(0).integer().required()
       .label('querystring.page')
       .error( errors => ( { message: `Le champ "page" est requis et doit être un entier strictement positif` } ) ),
-    pageSize: Joi.number().integer().valid([10, 20, 50, 100]).required()
+    pageSize: Joi.array().items(Joi.string().valid(['all','10','20','50','100'])).single().optional()
       .label('querystring.pageSize')
-      .error( errors => ( { message: `Le champ "pageSize" est requis et doit avoir une des valeurs autorisées (20, 50, 100)` } ) ),
+      .error( errors => ( { message: 'Le champ "pageSize" est requis et doit avoir une des valeurs autorisées (all, 10, 20, 50, 100)' } ) ),
     orderBy: Joi.array().items(Joi.string().valid(orderables)).single().optional()
       .label('querystring.orderBy')
       .error( errors => ( { message: `Le champ "orderBy" ne doit comporter que des colonnes autorisées ${ orderables.join(', ') }` } ) ),

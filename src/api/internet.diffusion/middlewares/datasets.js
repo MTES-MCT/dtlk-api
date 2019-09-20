@@ -24,7 +24,7 @@ module.exports = {
 
       let params = setPaginationParams(res.locals.datasetsPaginationCriteria)
       let firstPageNumber = 1
-      let lastPageNumber = (total === 0) ? 1 : Math.ceil(total / res.locals.datasetsPaginationCriteria.pageSize)
+      let lastPageNumber = (total === 0 || res.locals.datasetsPaginationCriteria.pageSize == 'all') ? 1 : Math.ceil(total / Number(res.locals.datasetsPaginationCriteria.pageSize))
       let previousPageNumber = (res.locals.datasetsPaginationCriteria.page > lastPageNumber) ? lastPageNumber : ((res.locals.datasetsPaginationCriteria.page === firstPageNumber) ? 0 : (res.locals.datasetsPaginationCriteria.page - 1))
       let nextPageNumber = (res.locals.datasetsPaginationCriteria.page >= lastPageNumber) ? 0 : (res.locals.datasetsPaginationCriteria.page + 1)
 

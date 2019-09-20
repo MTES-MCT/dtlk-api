@@ -14,7 +14,7 @@ router.route('/datasets')
     querystring.explodeCommas(['orderBy','topics','tags','licenses','organizations']),
     validate.datasetsPaginationInQuery,
     datasets.paginate,
-    excludeFieldsFromResponse(['pagination.data.datafiles.millesimes.columns.mapping', 'pagination.data.datafiles.millesimes.columns.type']),
+    excludeFieldsFromResponse(['pagination.data.datafiles.millesimes.columns.mapping', 'pagination.data.datafiles.millesimes.columns.type', 'pagination.data.datafiles.millesimes.columns.unit']),
     responses.pagination
   )
 
@@ -37,7 +37,7 @@ router.route('/datasets/:id')
   .get(
     validate.datasetIdInPath,
     datasets.get,
-    excludeFieldsFromResponse(['dataset.datafiles.millesimes.columns.mapping', 'dataset.datafiles.millesimes.columns.type']),
+    excludeFieldsFromResponse(['dataset.datafiles.millesimes.columns.mapping', 'dataset.datafiles.millesimes.columns.type', 'pagination.data.datafiles.millesimes.columns.unit']),
     responses.dataset
   )
 

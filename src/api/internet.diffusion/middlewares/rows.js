@@ -19,7 +19,7 @@ module.exports = {
 
       let params = setPaginationParams(res.locals.rowsPaginationCriteria)
       let firstPageNumber = 1
-      let lastPageNumber = (total === 0) ? 1 : Math.ceil(total / res.locals.rowsPaginationCriteria.pageSize)
+      let lastPageNumber = (total === 0 || res.locals.rowsPaginationCriteria.pageSize == 'all') ? 1 : Math.ceil(total / Number(res.locals.rowsPaginationCriteria.pageSize))
       let previousPageNumber = (res.locals.rowsPaginationCriteria.page > lastPageNumber) ? lastPageNumber : ((res.locals.rowsPaginationCriteria.page === firstPageNumber) ? 0 : (res.locals.rowsPaginationCriteria.page - 1))
       let nextPageNumber = (res.locals.rowsPaginationCriteria.page >= lastPageNumber) ? 0 : (res.locals.rowsPaginationCriteria.page + 1)
 

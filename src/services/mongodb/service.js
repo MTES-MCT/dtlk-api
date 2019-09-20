@@ -181,8 +181,8 @@ let mongoService = {
           { '$unwind': '$dataset.datafiles' },
           { '$match': filter },
           { '$sort': sort },
-          { '$skip': criteria.pageSize * (criteria.page - 1) },
-          { '$limit': criteria.pageSize },
+          { '$skip': criteria.pageSize != 'all' ? Number(criteria.pageSize) * (criteria.page - 1): 0 },
+          { '$limit': criteria.pageSize != 'all' ? Number(criteria.pageSize) : 10000 },
           { '$addFields': {
             _id: "$dataset.datafiles._id",
             title: "$dataset.datafiles.title",
@@ -536,8 +536,8 @@ let mongoService = {
           { '$match': criteria.filters },
           { '$sort': sort },
           { '$project': project },
-          { '$skip': criteria.pageSize * (criteria.page - 1) },
-          { '$limit': criteria.pageSize }
+          { '$skip': criteria.pageSize != 'all' ? Number(criteria.pageSize) * (criteria.page - 1): 0  },
+          { '$limit': criteria.pageSize != 'all' ? Number(criteria.pageSize) : 10000 }
         ])
         let total = await MongoRow.countDocuments(criteria.filters)
         return { total: total, rows: rows }
@@ -707,13 +707,21 @@ let mongoService = {
 
         let total = await MongoDataset.countDocuments(filter)
 
-        let datasets = await MongoDataset
+        let datasets = criteria.pageSize != 'all' ?
+        (await MongoDataset
           .find(filter)
           .populate({ path: 'organization' })
           .sort(sort)
-          .skip(criteria.pageSize * (criteria.page - 1))
-          .limit(criteria.pageSize)
+          .skip(Number(criteria.pageSize) * (criteria.page - 1))
+          .limit(Number(criteria.pageSize))
           .lean(true)
+          ) : 
+          (await MongoDataset
+            .find(filter)
+            .populate({ path: 'organization' })
+            .sort(sort)
+            .lean(true)
+          )
 
         for (let dataset of datasets) {
           dataset.attachments = dataset.resources.filter(resource => resource.extras.datalake_attachment === true)

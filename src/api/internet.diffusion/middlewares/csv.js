@@ -23,7 +23,7 @@ module.exports = {
       let columnsName = withColumnName ? columns.map(column => column.name) : []
       // get the columns description
       let columnsDescription = withColumnDescription ? columns.map(column => column.description) : []
-      // get the columns description
+      // get the columns unit
       let columnsUnit = withColumnUnit ? columns.map(column => column.unit) : []
       // flag: streaming started ?
       let started = false

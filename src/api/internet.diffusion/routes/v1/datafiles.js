@@ -20,7 +20,7 @@ router.route('/datafiles')
     querystring.explodeCommas(['orderBy']),
     validate.datafilesPaginationInQuery,
     datafiles.paginate,
-    excludeFieldsFromResponse(['pagination.data.millesimes.columns.mapping', 'pagination.data.millesimes.columns.type']),
+    excludeFieldsFromResponse(['pagination.data.millesimes.columns.mapping', 'pagination.data.millesimes.columns.type', 'pagination.data.millesimes.columns.unit']),
     responses.pagination
   )
 
@@ -51,7 +51,7 @@ router.route('/datafiles/:rid/swagger.json')
 */
 router.route('/datafiles/:rid')
   .get(
-    excludeFieldsFromResponse(['datafileMillesimed.columns.mapping', 'datafileMillesimed.columns.type']),
+    excludeFieldsFromResponse(['datafileMillesimed.columns.mapping', 'datafileMillesimed.columns.type', 'pagination.data.millesimes.columns.unit']),
     responses.datafileMillesimed
   )
 
