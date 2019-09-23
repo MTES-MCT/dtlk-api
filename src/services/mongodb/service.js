@@ -81,20 +81,24 @@ let mongoService = {
           return
         }
         catch (error) {
-          handleError(error, { type: 'ServerError', message: `Erreur interne: Suppresion millésime Fichier de données` })
+          handleError(error, { type: 'ServerError', message: `Erreur interne: Suppression  millésime Fichier de données` })
         }
       }
     },
-    delete: async (rid, millesimes) => {
+    delete: async (rid, millesimes, millesimesDatafile) => {
       try {
+        let listMillesime = millesimesDatafile.reduce((accumulatorMillesimes, currentMillesime) => {
+          accumulatorMillesimes.push(currentMillesime.millesime)
+          return accumulatorMillesimes
+        }, [])
         for (let i = 0; i < millesimes; i++) {
-          let MongoRow = row(`${ rid }_${ i + 1 }`)
+          let MongoRow = row(`${ rid }_${ listMillesime[i] }`)
           await MongoRow.dropCollection()
           return
         }
       }
       catch (error) {
-        handleError(error, { type: 'ServerError', message: `Erreur interne: Suppresion Fichier de données` })
+        handleError(error, { type: 'ServerError', message: `Erreur interne: Suppression  Fichier de données` })
       }
     },
     paginate: async criteria => {
@@ -181,8 +185,8 @@ let mongoService = {
           { '$unwind': '$dataset.datafiles' },
           { '$match': filter },
           { '$sort': sort },
-          { '$skip': criteria.pageSize != 'all' ? Number(criteria.pageSize) * (criteria.page - 1): 0 },
-          { '$limit': criteria.pageSize != 'all' ? Number(criteria.pageSize) : 10000 },
+          { '$skip': criteria.pageSize != 'all' ? Number(criteria.pageSize) * (criteria.page - 1): total * (criteria.page - 1) },
+          { '$limit': criteria.pageSize != 'all' ? Number(criteria.pageSize) : total },
           { '$addFields': {
             _id: "$dataset.datafiles._id",
             title: "$dataset.datafiles.title",
@@ -531,15 +535,15 @@ let mongoService = {
         else {
           sort._id = 1
         }
-
+        let total = await MongoRow.countDocuments(criteria.filters)
         let rows = await MongoRow.aggregate([
           { '$match': criteria.filters },
           { '$sort': sort },
           { '$project': project },
-          { '$skip': criteria.pageSize != 'all' ? Number(criteria.pageSize) * (criteria.page - 1): 0  },
-          { '$limit': criteria.pageSize != 'all' ? Number(criteria.pageSize) : 10000 }
+          { '$skip': criteria.pageSize != 'all' ? Number(criteria.pageSize) * (criteria.page - 1): total * (criteria.page - 1) },
+          { '$limit': criteria.pageSize != 'all' ? Number(criteria.pageSize) : total }
         ])
-        let total = await MongoRow.countDocuments(criteria.filters)
+
         return { total: total, rows: rows }
       }
       catch (error) {
@@ -720,6 +724,7 @@ let mongoService = {
             .find(filter)
             .populate({ path: 'organization' })
             .sort(sort)
+            .skip(total * (criteria.page - 1))
             .lean(true)
           )
 

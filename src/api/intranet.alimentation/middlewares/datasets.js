@@ -62,7 +62,7 @@ let middlewares = {
   },
   delete: async (req, res, next) => {
     try {
-      for (let datafile of res.locals.dataset.datafiles) await mongoService.datafiles.delete(datafile.rid, datafile.millesimes)
+      for (let datafile of res.locals.dataset.datafiles) await mongoService.datafiles.delete(datafile.rid, datafile.millesimes, datafile.millesimes_info)
       await udataApi.datasets.delete(res.locals.apiKey, res.locals.dataset.id)
       mongoService.logs.dataset.delete(res.locals.user, res.locals.dataset)
       mongoService.jobs.remove.ofDataset(res.locals.dataset.id)
