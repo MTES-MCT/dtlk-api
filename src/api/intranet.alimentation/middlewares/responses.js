@@ -24,6 +24,10 @@ module.exports = {
     try { res.json(res.locals.tags) }
     catch (error) { next(error) }
   },
+  allTags: (req, res, next) => {
+    try { res.json(res.locals.allTags) }
+    catch (error) { next(error) }
+  },
   granularities: (req, res, next) => {
     try { res.json(res.locals.granularities) }
     catch (error) { next(error) }

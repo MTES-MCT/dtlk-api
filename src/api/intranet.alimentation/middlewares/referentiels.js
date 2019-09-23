@@ -49,6 +49,15 @@ module.exports = {
       next(new apiErrors.ServerError(`Erreur interne au serveur`))
     }
   },
+  searchAllTags: async (req, res, next) => {
+    try {
+      res.locals.allTags = transform.mongo.tags(await mongoService.tags.findAll())
+      next()
+    }
+    catch (error) {
+      next(new apiErrors.ServerError(`Erreur interne au serveur`))
+    }
+  },
   searchZones: async (req, res, next) => {
     try {
       res.locals.zones = transform.udata.zones(await udataApi.zones.search(res.locals.zoneSearchTerm))
