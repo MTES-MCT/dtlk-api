@@ -302,6 +302,43 @@ let transform = {
         catch (error) {
           throw new transformErrors.MongoToAlimentationApiError(`Erreur de conversion d'un message mongo`)
         }
+      },
+      nomenclatures: mongoNomenclatures => {
+        try {
+          let nomenclaturesToConvert = Array.isArray(mongoNomenclatures) ? mongoNomenclatures : [mongoNomenclatures]
+          let convertedBilanenergie = nomenclaturesToConvert.map(nomenclature => {
+          return{ bilan_Energie: nomenclature.bilanEnergie.map(bilanEnergie => { 
+                    return {code: bilanEnergie.code,
+                            name: bilanEnergie.name || '',
+                            unit: bilanEnergie.unit,
+                            level: bilanEnergie.level || '',
+                            data_type: bilanEnergie.data_type || '',
+                            flow_type: bilanEnergie.flow_type
+                    }   
+                  }),
+                  csl_filiere: nomenclature.csl_filiere.map(csl_filiere => { 
+                    return {code: csl_filiere.code,
+                            name: csl_filiere.name || ''
+                    }   
+                  }),
+                  csl_operation: nomenclature.csl_operation.map(csl_operation => { 
+                    return {code_1: csl_operation.code_1,
+                            name_1: csl_operation.name_1 || '',
+                            code_2: csl_operation.code_2,
+                            name_2: csl_operation.name_2 || '',
+                            code_3: csl_operation.code_3,
+                            name_3: csl_operation.name_3 || '',
+                            code_4: csl_operation.code_4,
+                            name_4: csl_operation.name_4 || ''
+                    }   
+                  })
+                }
+          })
+          return Array.isArray(convertedBilanenergie) ? convertedBilanenergie : convertedBilanenergie[0]
+        }
+        catch (error) {
+          throw new transformErrors.MongoToAlimentationApiError(`Erreur de conversion des nomenclatures mongo`)
+        }
       }
     },
     kue: {

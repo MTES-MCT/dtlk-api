@@ -3,6 +3,9 @@ let udataConnection = require('./connection')('udata')
 let hubConnection = require('./connection')('hub')
 let { mongo: errors } = require('../errors')
 let MongoTag = require('./hub/referentiel/tag')
+let MongoNomencBilanenergie = require('./hub/nomenclature/bilanenergie')
+let MongoNomencCsl_filiere = require('./hub/nomenclature/csl_filiere')
+let MongoNomencCsl_operation = require('./hub/nomenclature/csl_operation')
 let MongoLog = require('./hub/log')
 let MongoUser = require('./udata/user')
 let MongoJob = require('./hub/job')
@@ -847,6 +850,21 @@ let mongoService = {
         handleError(error, { type: 'NotFoundError', message: `Pas de fichier joint avec le rid ${ rid }` })
       }
     }
+  },
+  nomenclatures: { 
+    list: async () => {
+      try {
+        let bilanEnergie = await MongoNomencBilanenergie.find({})
+        let csl_filiere = await MongoNomencCsl_filiere.find({})
+        let csl_operation = await MongoNomencCsl_operation.find({})
+        let nomenclatures = { bilanEnergie : bilanEnergie, csl_filiere: csl_filiere, csl_operation: csl_operation }
+        return nomenclatures
+      }
+      catch (error) {
+        handleError(error, { type: 'ServerError', message: `Erreur interne: Recherche de la liste des nomenclatures` })
+      }
+    },
+
   }
 }
 

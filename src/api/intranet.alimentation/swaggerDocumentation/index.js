@@ -159,6 +159,19 @@ module.exports = {
           }
         }
       },
+      '/v1/referentiels/nomenclatures': {
+        get: {
+          tags: [`refs`],
+          summary: `Lister les nomenclatures disponibles `,
+          description: `Permet d'obtenir la liste des nomenclatures dans le Datalake`,
+          operationId: `list_nomenclatures`,
+          produces: [`application/json`],
+          responses: {
+            '200': { $ref: `#/responses/listnomenclaturesResponse` },
+            default: { $ref: `#/responses/serverErrorResponse` }
+          }
+        }
+      },
       '/v1/auth': {
         post: {
           tags: [`users`],
@@ -1181,6 +1194,129 @@ module.exports = {
             description: `Liste des membres de l'organisation`,
             items: { $ref: `#/definitions/Member` }
           }
+        }
+      },
+      ListNomenclatures: {
+        type: `array`,
+        description: `Liste des nomenclatures`,
+        items: { $ref: `#/definitions/nomenclatures` }
+      },
+      BilanEnergie: {
+        type: `object`,
+        description: `nomenclature BilanEnergie`,
+        required: [`code`, `name`, `unit`, `level`, `data_type`, `flow_type`],
+        properties: {
+          code: {
+            description: `Identifiant de la nomenclature`,
+            type: `string`,
+            example: `BE001`
+          },
+          name: {
+            description: `Nom du bilan d'energie`,
+            type: `string`,
+            example: `Production de pétrole brut`
+          },
+          unit: {
+            description: `unit du bilan d'energie`,
+            type: `string`,
+            example: `Mtep`
+          },
+          level: {
+            description: `Emplacement du bilan d'energie`,
+            type: `string`,
+            example: `Métropole`
+          },
+          flow_type: {
+            description: '',
+            type: `string`,
+            example: `Production primaire`
+          }
+        }
+      },
+      Csl_filiere: {
+        type: `object`,
+        description: `nomenclature csl_filiere`,
+        required: [`code`, `name`],
+        properties: {
+          code: {
+            description: `Identifiant de la nomenclature`,
+            type: `string`,
+            example: `FLT`
+          },
+          name: {
+            description: `Nom du csl_filiere`,
+            type: `string`,
+            example: `Ensemble des filières`
+          }
+        }
+      },
+      Csl_operation: {
+        type: `object`,
+        description: `nomenclature csl_operation`,
+        required: [`code_1`, `name_1`, `code_2`, `name_2`, `code_3`, `name_3`, `code_4`, `name_4`,],
+        properties: {
+          code_1: {
+            description: `Identifiant 1 de la nomenclature`,
+            type: `string`,
+            example: `OE`
+          },
+          name_1: {
+            description: `Nom 1 du csl_operation`,
+            type: `string`,
+            example: `Dépenses des occupants`
+          },
+          code_2: {
+            description: `Identifiant 2 de la nomenclature`,
+            type: `string`,
+            example: `OEO1`
+          },
+          name_2: {
+            description: `Nom 2 du csl_operation`,
+            type: `string`,
+            example: `Loyers (ou redevances) payé par les occupants`
+          },
+          code_3: {
+            description: `Identifiant 3 de la nomenclature`,
+            type: `string`,
+            example: `OEO1`
+          },
+          name_3: {
+            description: `Nom 3 du csl_operation`,
+            type: `string`,
+            example: `Loyers (ou redevances) payé par les occupants`
+          },
+          code_4: {
+            description: `Identifiant 4 de la nomenclature`,
+            type: `string`,
+            example: `OEO111`
+          },
+          name_4: {
+            description: `Nom 4 du csl_operation`,
+            type: `string`,
+            example: `Loyers réels`
+          }
+        }
+      },
+      nomenclatures:{
+        type: `object`,
+        description: `La liste des nomenclatures`,
+        required: [`bilan_Energie`],
+        properties: {
+          bilan_Energie: {
+            type: `array`,
+            description: `Nomenclature bilan d'energie`,
+            items: { $ref: `#/definitions/BilanEnergie` }
+          },
+          csl_filiere: {
+            type: `array`,
+            description: `Nomenclature csl_filiere`,
+            items: { $ref: `#/definitions/Csl_filiere` }
+          },
+          csl_operation: {
+            type: `array`,
+            description: `Nomenclature csl_operation`,
+            items: { $ref: `#/definitions/Csl_operation` }
+          },
         }
       },
       Member: {
@@ -2787,6 +2923,10 @@ module.exports = {
       listOrganizationsResponse: {
         description: `Réponse avec une liste dorganisations`,
         schema: { $ref: `#/definitions/ListOrganizations` }
+      },
+      listnomenclaturesResponse: {
+        description: `Réponse avec une liste des nomenclatures`,
+        schema: { $ref: `#/definitions/ListNomenclatures` }
       },
       meResponse: {
         description: `Réponse avec l'utilisateur authentifié`,

@@ -87,5 +87,13 @@ router.route('/referentiels/organizations')
     referentiels.organizations,
     responses.organizations
   )
-
+/**
+ * GET ${basePath_intra}/v1/referentiels/nomenclatures
+ * api route: get the list of nomenclatures
+ */
+router.route('/referentiels/nomenclatures')
+  .get(
+    referentiels.nomenclatures,
+    responses.nomenclatures
+  )
 module.exports = router
