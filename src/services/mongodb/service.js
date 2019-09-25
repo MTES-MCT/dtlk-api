@@ -3,6 +3,10 @@ let udataConnection = require('./connection')('udata')
 let hubConnection = require('./connection')('hub')
 let { mongo: errors } = require('../errors')
 let MongoTag = require('./hub/referentiel/tag')
+let MongoRefsPolluant_eau = require('./hub/referentiel/polluant_eau')
+let MongoRefsPort = require('./hub/referentiel/port')
+let MongoRefsStation_air = require('./hub/referentiel/station_air')
+let MongoRefsStation_esu = require('./hub/referentiel/station_esu')
 let MongoNomencBilanenergie = require('./hub/nomenclature/bilanenergie')
 let MongoNomencCsl_filiere = require('./hub/nomenclature/csl_filiere')
 let MongoNomencCsl_operation = require('./hub/nomenclature/csl_operation')
@@ -851,6 +855,21 @@ let mongoService = {
       }
     }
   },
+  referentiels: { 
+    list: async () => {
+      try {
+        let polluant_eau = await MongoRefsPolluant_eau.find({})
+        let port = await MongoRefsPort.find({})
+        let station_air = await MongoRefsStation_air.find({})
+        let station_esu = await MongoRefsStation_esu.find({})
+        let referentiels = { polluant_eau : polluant_eau, port: port, station_air: station_air,  station_esu: station_esu}
+        return referentiels
+      }
+      catch (error) {
+        handleError(error, { type: 'ServerError', message: `Erreur interne: Recherche de la liste des referentiels` })
+      }
+    }
+  },
   nomenclatures: { 
     list: async () => {
       try {
@@ -863,8 +882,7 @@ let mongoService = {
       catch (error) {
         handleError(error, { type: 'ServerError', message: `Erreur interne: Recherche de la liste des nomenclatures` })
       }
-    },
-
+    }
   }
 }
 

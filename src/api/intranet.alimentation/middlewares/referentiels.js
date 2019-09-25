@@ -4,6 +4,15 @@ let { toAlimentationApi: transform } = require('../../../services/transform')
 let { api: apiErrors } = require('../../../services/errors')
 
 module.exports = {
+  referentiels: async (req, res, next) => {
+    try {
+      res.locals.referentiels = transform.mongo.referentiels(await mongoService.referentiels.list())
+      next()
+    }
+    catch (error) {
+      next(new apiErrors.ServerError(`Erreur interne au serveur`))
+    }
+  },
   licenses: async (req, res, next) => {
     try {
       res.locals.licenses = transform.udata.licenses(await udataApi.licenses.all())
@@ -85,15 +94,5 @@ module.exports = {
     catch (error) {
       next(new apiErrors.ServerError(`Erreur interne au serveur`))
     }
-  },
-  nomenclatures: async (req, res, next) => {
-    try {
-
-      res.locals.nomenclatures = transform.mongo.nomenclatures(await mongoService.nomenclatures.list())
-      next()
-    }
-    catch (error) {
-      next(new apiErrors.ServerError(`Erreur interne au serveur`))
-    }
-  },
+  }
 }

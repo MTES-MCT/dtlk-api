@@ -19,6 +19,7 @@ module.exports = {
     produces: [`application/json`],
     tags: [
       { name: `refs`, description: `Opérations sur les référentiels utilisés par le Datalake` },
+      { name: `nomenclatures`, description: `Opérations sur les nomenclatures utilisés par le Datalake` },
       { name: `users`, description: `Opérations concernant les utilisateurs du Datalake` },
       { name: `datasets`, description: `Opérations sur les jeux de données` },
       { name: `attachments`, description: `Opérations sur les pièces jointes appartenant à un jeu de données` },
@@ -28,6 +29,19 @@ module.exports = {
       { name: `messages`, description: `Opérations sur les messages envoyés par le Datalake` }
     ],
     paths: {
+      '/v1/referentiels': {
+        get: {
+          tags: [`refs`],
+          summary: `Lister tous les référentiels disponibles`,
+          description: `Permet d'obtenir la liste des référentiels disponibles dans le Datalake`,
+          operationId: `list_refs`,
+          produces: [`application/json`],
+          responses: {
+            '200': { $ref: `#/responses/listReferentielsResponse` },
+            default: { $ref: `#/responses/serverErrorResponse` }
+          }
+        }
+      },
       '/v1/referentiels/licenses': {
         get: {
           tags: [`refs`],
@@ -159,9 +173,9 @@ module.exports = {
           }
         }
       },
-      '/v1/referentiels/nomenclatures': {
+      '/v1/nomenclatures': {
         get: {
-          tags: [`refs`],
+          tags: [`nomenclatures`],
           summary: `Lister les nomenclatures disponibles `,
           description: `Permet d'obtenir la liste des nomenclatures dans le Datalake`,
           operationId: `list_nomenclatures`,
@@ -1300,7 +1314,7 @@ module.exports = {
       nomenclatures:{
         type: `object`,
         description: `La liste des nomenclatures`,
-        required: [`bilan_Energie`],
+        required: [`bilan_Energie`, `csl_filiere`, `csl_operation`],
         properties: {
           bilan_Energie: {
             type: `array`,
@@ -1316,6 +1330,243 @@ module.exports = {
             type: `array`,
             description: `Nomenclature csl_operation`,
             items: { $ref: `#/definitions/Csl_operation` }
+          },
+        }
+      },
+      ListReferentiels: {
+        type: `array`,
+        description: `Liste des referentiels`,
+        items: { $ref: `#/definitions/referentiels` }
+      },
+      PolluantEau: {
+        type: `object`,
+        description: `nomenclature PolluantEau`,
+        required: [`code`, `unit`],
+        properties: {
+          code: {
+            description: `Identifiant`,
+            type: `string`,
+            example: `1109`
+          },
+          name: {
+            description: `Nom de la polluant d'eau`,
+            type: `string`,
+            example: `Atrazine déisopropyl`
+          },
+          unit: {
+            description: `unité de la polluant d'eau`,
+            type: `string`,
+            example: `µg/L`
+          }
+        }
+      },
+      Port: {
+        type: `object`,
+        description: `nomenclature PolluantEau`,
+        required: [`mca_code`,`mca_name`,`code`, `name`],
+        properties: {
+          mca_code: {
+            description: `Code MCA`,
+            type: `string`,
+            example: `FR01`
+          },
+          mca_name: {
+            description: `Nom MCA`,
+            type: `string`,
+            example: `FRANCE: Atlantic and North Sea`
+          },
+          code: {
+            description: `Identifiant`,
+            type: `string`,
+            example: `FRBOL`
+          },
+          name: {
+            description: `Nom du port`,
+            type: `string`,
+            example: `Boulogne-sur-Mer`
+          }
+        }
+      },
+      Location: {
+        type: `object`,
+        description: `localisation`,
+        required: [`type`, `coordinates`],
+        properties: {
+          type: {
+            description: `Le type de l'mplacement`,
+            type: `string`,
+            enum: [`Point`],
+            example: `Point`
+          },
+          coordinates: {
+            type: `object`,
+            description: `les coordonnées de la référence`,
+            required: [`longitude`, `latitude`],
+            properties: {
+              longitude: {
+                description: `La longitude`,
+                type: `float`,
+                example: 1.4035470518
+              },
+              latitude: {
+                description: `La latitude`,
+                type: `float`,
+                example: 49.3677071211
+              },
+              altitude: {
+                description: `L'altitude'`,
+                type: `float`,
+                example: 118
+              },
+            }
+          }
+        }
+      },
+      Validity: {
+        type: `object`,
+        description: `période de validité`,
+        required: [`start`],
+        properties: {
+          start: {
+            description: `Date de début de la validité`,
+            type: `date-time`,
+            example: `2018-01-26T21:06:55.277Z`
+          },
+          end: {
+            description: `Date de fin de la validité`,
+            type: `date-time`,
+            example: `2019-01-26T21:06:55.277Z`
+          },
+        }
+      },
+      StationAir: {
+        type: `object`,
+        description: `nomenclature PolluantEau`,
+        required: [`code`, `name`, `code_zas`, `code_zas`, `name_zas`, `commune`, `aasqa`, `location`, `validity`, `sector_type`, `millesime`],
+        properties: {
+          code: {
+            description: `Identifiant`,
+            type: `string`,
+            example: `01005`
+          },
+          name: {
+            description: `Nom`,
+            type: `string`,
+            example: `Hayange`
+          },
+          code_zas: {
+            description: `Code ZAS`,
+            type: `string`,
+            example: `FR01A01`
+          },
+          name_zas: {
+            description: `Nom ZAS`,
+            type: `string`,
+            example: `LORRAINE-METZ`
+          },
+          commune: {
+            description: `Code ZAS`,
+            type: `string`,
+            example: `57306`
+          },
+          aasqa: {
+            description: `Nom ZAS`,
+            type: `string`,
+            example: `AIR LORRAINE (04)`
+          },
+          location: {
+            type: `array`,
+            description: ``,
+            items: { $ref: `#/definitions/Location` }
+          },
+          validity: {
+            type: `array`,
+            description: `la durée de validité`,
+            items: { $ref: `#/definitions/Validity` }
+          },
+          sector_type: {
+            description: `le type de secteur`,
+            type: `string`,
+            example: `sector_type`
+          },
+          millesime: {
+            description: `le millésime du réferentiel`,
+            type: `Integer`,
+            example: 2017
+          },
+          impact_pm10: {
+            description: `l'impact en PM10`,
+            type: `string`,
+            example: `fond`
+          },
+          impact_no2: {
+            description: `l'impact en No2`,
+            type: `string`,
+            example: `fond`
+          },
+          impact_o3: {
+            description: `l'impact en O3`,
+            type: `string`,
+            example: `fond`
+          },
+          impact_so2: {
+            description: `l'impact en So2`,
+            type: `string`,
+            example: `fond`
+          },
+          impact_pm25: {
+            description: `l'impact en PM25`,
+            type: `string`,
+            example: `fond`
+          },
+          impact_co: {
+            description: `l'impact en Co`,
+            type: `string`,
+            example: `fond`
+          }
+        }
+      },
+      StationEsu: {
+        type: `object`,
+        description: `nomenclature PolluantEau`,
+        required: [`code`,`location`],
+        properties: {
+          location: {
+            type: `array`,
+            description: ``,
+            items: { $ref: `#/definitions/Location` }
+          },
+          code: {
+            description: `Identifiant`,
+            type: `string`,
+            example: `K021510`
+          }
+        }
+      },
+      referentiels:{
+        type: `object`,
+        description: `La liste des nomenclatures`,
+        required: [`polluant_eau`,`port`, `station_air`, `station_esu`],
+        properties: {
+          polluant_eau: {
+            type: `array`,
+            description: `Référentiel polluant_eau`,
+            items: { $ref: `#/definitions/PolluantEau` }
+          },
+          port: {
+            type: `array`,
+            description: `Référentiel port`,
+            items: { $ref: `#/definitions/Port` }
+          },
+          station_air: {
+            type: `array`,
+            description: `Référentiel station_air`,
+            items: { $ref: `#/definitions/StationAir` }
+          },
+          station_esu: {
+            type: `array`,
+            description: `Référentiel station_esu`,
+            items: { $ref: `#/definitions/StationEsu` }
           },
         }
       },
@@ -2892,6 +3143,10 @@ module.exports = {
       }
     },
     responses: {
+      listReferentielsResponse: {
+        description: `Réponse avec une liste de référentiels`,
+        schema: { $ref: `#/definitions/ListReferentiels` }
+      },
       listLicensesResponse: {
         description: `Réponse avec une liste de licences`,
         schema: { $ref: `#/definitions/ListLicenses` }
