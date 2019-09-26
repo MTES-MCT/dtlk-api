@@ -2,6 +2,7 @@ let queueService = require('../../../services/queue/service')
 let mongoService = require('../../../services/mongodb/service')
 let { toAlimentationApi: transformForApi } = require('../../../services/transform')
 let { api: apiErrors } = require('../../../services/errors')
+let moment = require('moment-timezone')
 
 let middlewares = {
   get: async (req, res, next) => {
@@ -48,10 +49,18 @@ let middlewares = {
     },
     addDatafileMillesime: async (req, res, next) => {
       try {
-        let kueJob = await queueService.addDatafileMillesimeJob.create(res.locals.user,res.locals.dataset,res.locals.millesime, res.locals.datafile, res.locals.uploadedFile.file)
-        await queueService.uploadedFileJob.remove(res.locals.uploadedFile.jobId)
-        res.locals.newJob = transformForApi.kue.jobs(kueJob)
-        next()
+        let listmillesime = []
+        res.locals.datafile.millesimes_info.forEach( millesime =>
+          listmillesime.push(millesime.millesime)
+        )
+        if (listmillesime.includes(moment(res.locals.millesime).format('YYYY-MM'))){
+          return next(new apiErrors.ServerError(`Erreur: Le millésime que vous souhaitez ajouté existe déjà`))
+        }else{
+          let kueJob = await queueService.addDatafileMillesimeJob.create(res.locals.user,res.locals.dataset,res.locals.millesime, res.locals.datafile, res.locals.uploadedFile.file)
+          await queueService.uploadedFileJob.remove(res.locals.uploadedFile.jobId)
+          res.locals.newJob = transformForApi.kue.jobs(kueJob)
+          return next()
+        }
       }
       catch (error) {
         next(new apiErrors.ServerError(`Erreur pendant la création de la tâche d'intégration du fichier de données sur le serveur`))
