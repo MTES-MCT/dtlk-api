@@ -36,12 +36,13 @@ let transform = {
             data: {
               task: kueJob.type,
               dataset_id: kueJob.data.idDataset,
-              file_name: kueJob.data.nameFile
+              file_name: kueJob.data.nameFile,
+              datafile_millesime: kueJob.data.millesimeDatafile
             }
           }
-          mongoJob.data.datafile_millesime = kueJob.data.millesimeDatafile
           if (kueJob.type === 'createDatafile') {
             mongoJob.data.datafile_metadata = kueJob.data.metadataDatafile
+            mongoJob.data.datafile_metadata.datafile_millesime = kueJob.data.millesimeDatafile
           }
           if (kueJob.type === 'replaceDatafileMillesime') {
             mongoJob.data.datafile_rid = kueJob.data.ridDatafile
@@ -412,6 +413,7 @@ let transform = {
             }
             if (kueJob.type === 'createDatafile') {
               apiJob.data.datafile_metadata = kueJob.data.metadataDatafile
+              apiJob.data.datafile_metadata.datafile_millesime = moment(kueJob.data.millesimeDatafile).format('YYYY-MM')
             }
             if (kueJob.type === 'replaceDatafileMillesime') {
               apiJob.data.datafile_rid = kueJob.data.ridDatafile

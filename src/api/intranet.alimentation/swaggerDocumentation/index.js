@@ -2438,10 +2438,16 @@ module.exports = {
                 type: `string`,
                 example: `test.csv`
               },
+              datafile_millesime: {
+                description: `Le millésime du fichier de données concerné par la tâche (si il s'agit d'une tâche de type replaceDatafileMillesime)`,
+                type: `string`,
+                format: `date-time`,
+                example: `2017-06`
+              },
               datafile_metadata: {
                 description: `Les métadonnées du fichier de donnée (si il s'agit d'une tâche de type createDatafile)`,
                 type: `object`,
-                required: [`title`, `description`, `published`],
+                required: [`title`, `description`, `published`,`datafile_millesime`],
                 properties: {
                   title: {
                     description: `Titre du fichier de données`,
@@ -2475,6 +2481,12 @@ module.exports = {
                     description: `Notice légale concernant le fichier de données`,
                     type: `string`,
                     example: `Ces données.......`
+                  },
+                  datafile_millesime: {
+                    description: `Le millésime du fichier de données concerné par la tâche (si il s'agit d'une tâche de type replaceDatafileMillesime)`,
+                    type: `string`,
+                    format: `date-time`,
+                    example: `2017-06`
                   }
                 }
               },
@@ -2483,12 +2495,6 @@ module.exports = {
                 type: `string`,
                 format: `uuid`,
                 example: `2f48a6cd-b147-4750-aa70-990a5c17f536`
-              },
-              datafile_millesime: {
-                description: `Le millésime du fichier de données concerné par la tâche (si il s'agit d'une tâche de type replaceDatafileMillesime)`,
-                type: `string`,
-                format: `date-time`,
-                example: `2017-06`
               }
             }
           },

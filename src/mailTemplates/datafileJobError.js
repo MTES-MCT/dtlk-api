@@ -121,7 +121,7 @@ let tplSubject = `✘ Votre fichier {{ file.name }} n'a pas été intégré dans
 let getTypeJob = (job) => {
   if (job.type === 'createDatafile') return `Création d'un fichier de données`
   if (job.type === 'addDatafileMillesime') return `Création d'un nouveau millésime d'un fichier de données`
-  if (job.type === 'replaceDatafileMillesime') return  (job.data.millesimeDatafile === 1) && (job.progress_data.datafile.millesimes === 1) ? `Remplacement d'un fichier de données` : `Remplacement d'un millésime d'un fichier de données`
+  if (job.type === 'replaceDatafileMillesime') return (job.progress_data.datafile.millesimes === 1) ? `Remplacement d'un fichier de données` : `Remplacement d'un millésime d'un fichier de données`
 }
 
 module.exports = (job) => {
@@ -137,7 +137,7 @@ module.exports = (job) => {
     dataset: { title: job.progress_data.dataset.title },
     datafile: {
       title: job.type === 'createDatafile' ? job.data.metadataDatafile.title : job.progress_data.datafile.title,
-      millesime: job.data.millesimeDatafile,
+      millesime: job.data.metadataDatafile.millesimeDatafile,
       creation: job.type === 'createDatafile' ? true : false,
       replaceMillesime: job.type === 'replaceDatafileMillesime' ? true : false,
       addMillesime: job.type === 'addDatafileMillesime' ? true : false

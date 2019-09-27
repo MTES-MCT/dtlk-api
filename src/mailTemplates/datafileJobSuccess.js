@@ -129,7 +129,7 @@ let tplSbuject = `✔ Votre fichier {{ file. name }} a été intégré dans le D
 let getTypeJob = (job) => {
   if (job.type === 'createDatafile') return `Création d'un fichier de données`
   if (job.type === 'addDatafileMillesime') return `Création d'un nouveau millésime d'un fichier de données`
-  if (job.type === 'replaceDatafileMillesime') return  (job.data.millesimeDatafile === 1) && (job.progress_data.datafile.millesimes === 1) ? `Remplacement d'un fichier de données` : `Remplacement d'un millésime d'un fichier de données`
+  if (job.type === 'replaceDatafileMillesime') return  (job.progress_data.datafile.millesimes === 1) ? `Remplacement d'un fichier de données` : `Remplacement d'un millésime d'un fichier de données`
 }
 let getUrls = (job) => {
   let ihm = `${ ihmDiffusionInternetExposedUrl }datafile/${ job.progress_data.datafile.rid }`
