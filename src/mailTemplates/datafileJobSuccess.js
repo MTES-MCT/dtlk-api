@@ -134,9 +134,9 @@ let getTypeJob = (job) => {
 let getUrls = (job) => {
   let ihm = `${ ihmDiffusionInternetExposedUrl }datafile/${ job.progress_data.datafile.rid }`
   let csv = `${ apiDiffusionInternetExposedUrl }v1/datafiles/${ job.progress_data.datafile.rid }/csv?`
-  if (job.type === 'createDatafile') return { api: ihm + `?millesime=${ job.data.millesimeDatafile }`, csv: csv + `millesime=${ job.data.millesimeDatafile }&withColumnName=true&withColumnDescription=true&withColumnUnit=false`}
-  if (job.type === 'addDatafileMillesime') return { api: ihm + `?millesime=${ job.data.millesimeDatafile }`, csv: csv + `millesime=${ job.data.millesimeDatafile }&withColumnName=true&withColumnDescription=true&withColumnUnit=false` }
-  if (job.type === 'replaceDatafileMillesime') return { api: ihm + `?millesime=${ job.data.millesimeDatafile }`,csv: csv + `millesime=${ job.data.millesimeDatafile }&withColumnName=true&withColumnDescription=true&withColumnUnit=false`}
+  if (job.type === 'createDatafile') return { api: ihm + `?millesime=${ job.data.millesimeDatafile }`, csv: csv + `millesime=${ job.data.millesimeDatafile }&withColumnName=true&withColumnDescription=true`}
+  if (job.type === 'addDatafileMillesime') return { api: ihm + `?millesime=${ job.data.millesimeDatafile }`, csv: csv + `millesime=${ job.data.millesimeDatafile }&withColumnName=true&withColumnDescription=true` }
+  if (job.type === 'replaceDatafileMillesime') return { api: ihm + `?millesime=${ job.data.millesimeDatafile }`,csv: csv + `millesime=${ job.data.millesimeDatafile }&withColumnName=true&withColumnDescription=true`}
 }
 
 module.exports = (job) => {
