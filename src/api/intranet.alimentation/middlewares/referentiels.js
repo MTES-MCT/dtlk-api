@@ -4,15 +4,6 @@ let { toAlimentationApi: transform } = require('../../../services/transform')
 let { api: apiErrors } = require('../../../services/errors')
 
 module.exports = {
-  referentiels: async (req, res, next) => {
-    try {
-      res.locals.referentiels = transform.mongo.referentiels(await mongoService.referentiels.list())
-      next()
-    }
-    catch (error) {
-      next(new apiErrors.ServerError(`Erreur interne au serveur`))
-    }
-  },
   licenses: async (req, res, next) => {
     try {
       res.locals.licenses = transform.udata.licenses(await udataApi.licenses.all())

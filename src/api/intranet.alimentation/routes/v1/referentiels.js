@@ -5,15 +5,6 @@ let responses = require('../../middlewares/responses')
 
 /**
  * GET ${basePath_intra}/v1/referentiels/licenses
- * api route: get the list of availables "referentiels"
- */
-router.route('/referentiels')
-  .get(
-    referentiels.referentiels,
-    responses.referentiels
-  )
-/**
- * GET ${basePath_intra}/v1/referentiels/licenses
  * api route: get the list of availables licenses
  */
 router.route('/referentiels/licenses')
@@ -96,4 +87,5 @@ router.route('/referentiels/organizations')
     referentiels.organizations,
     responses.organizations
   )
+
 module.exports = router

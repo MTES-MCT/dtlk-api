@@ -3,13 +3,6 @@ let udataConnection = require('./connection')('udata')
 let hubConnection = require('./connection')('hub')
 let { mongo: errors } = require('../errors')
 let MongoTag = require('./hub/referentiel/tag')
-let MongoRefsPolluant_eau = require('./hub/referentiel/polluant_eau')
-let MongoRefsPort = require('./hub/referentiel/port')
-let MongoRefsStation_air = require('./hub/referentiel/station_air')
-let MongoRefsStation_esu = require('./hub/referentiel/station_esu')
-let MongoNomencBilanenergie = require('./hub/nomenclature/bilanenergie')
-let MongoNomencCsl_filiere = require('./hub/nomenclature/csl_filiere')
-let MongoNomencCsl_operation = require('./hub/nomenclature/csl_operation')
 let MongoLog = require('./hub/log')
 let MongoUser = require('./udata/user')
 let MongoJob = require('./hub/job')
@@ -847,35 +840,6 @@ let mongoService = {
       }
       catch (error) {
         handleError(error, { type: 'NotFoundError', message: `Pas de fichier joint avec le rid ${ rid }` })
-      }
-    }
-  },
-  referentiels: { 
-    list: async () => {
-      try {
-        let polluant_eau = await MongoRefsPolluant_eau.find({})
-        let port = await MongoRefsPort.find({})
-        let station_air = await MongoRefsStation_air.find({})
-        let station_esu = await MongoRefsStation_esu.find({})
-        let referentiels = { polluant_eau : polluant_eau, port: port, station_air: station_air,  station_esu: station_esu}
-        return referentiels
-      }
-      catch (error) {
-        handleError(error, { type: 'ServerError', message: `Erreur interne: Recherche de la liste des referentiels` })
-      }
-    }
-  },
-  nomenclatures: { 
-    list: async () => {
-      try {
-        let bilanEnergie = await MongoNomencBilanenergie.find({})
-        let csl_filiere = await MongoNomencCsl_filiere.find({})
-        let csl_operation = await MongoNomencCsl_operation.find({})
-        let nomenclatures = { bilanEnergie : bilanEnergie, csl_filiere: csl_filiere, csl_operation: csl_operation }
-        return nomenclatures
-      }
-      catch (error) {
-        handleError(error, { type: 'ServerError', message: `Erreur interne: Recherche de la liste des nomenclatures` })
       }
     }
   }

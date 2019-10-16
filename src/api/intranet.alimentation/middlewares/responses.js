@@ -44,14 +44,6 @@ module.exports = {
     try { res.json(res.locals.organizations) }
     catch (error) { next(error) }
   },
-  referentiels: (req, res, next) => {
-    try { res.json(res.locals.referentiels) }
-    catch (error) { next(error) }
-  },
-  nomenclatures: (req, res, next) => {
-    try { res.json(res.locals.nomenclatures) }
-    catch (error) { next(error) }
-  },
   me: (req, res, next) => {
     try { res.json(res.locals.user) }
     catch (error) { next(error) }

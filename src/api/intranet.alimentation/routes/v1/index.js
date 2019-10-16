@@ -12,10 +12,6 @@ router.use(require('./apidoc'))
 router.use(require('./referentiels'))
 
 /**
- * ${basePath_intra}/v1/nomenclatures routes
- */
-router.use(require('./nomenclatures'))
-/**
  * ${basePath_intra}/v1/users routes
  */
 router.use(require('./users'))
