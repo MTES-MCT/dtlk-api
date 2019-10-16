@@ -50,15 +50,6 @@ router.route('/referentiels/tags')
     responses.tags
   )
 /**
- * GET ${basePath_intra}/v1/referentiels/tags
- * api route: get the list of tags
- */
-router.route('/referentiels/alltags')
-  .get(
-    referentiels.searchAllTags,
-    responses.allTags
-  )
-/**
  * GET ${basePath_intra}/v1/referentiels/zones
  * api route: get the list of zones with a suggest term
  */

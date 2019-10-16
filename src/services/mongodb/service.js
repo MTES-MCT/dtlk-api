@@ -40,14 +40,6 @@ let mongoService = {
         handleError(error, { type: 'ServerError', message: `Erreur interne: Recherche mot-clés` })
       }
     },
-    findAll: async () => {
-      try {
-        return await MongoTag.find({})
-      }
-      catch (error) {
-        handleError(error, { type: 'ServerError', message: `Erreur interne: Recherche de la liste des mots clés` })
-      }
-    },
     byValue: async (value) => {
       try {
         return await MongoTag.findOne({ value: value })

@@ -85,19 +85,6 @@ module.exports = {
           }
         }
       },
-      '/v1/referentiels/allTags': {
-        get: {
-          tags: [`refs`],
-          summary: `Lister tous les mots-clé disponibles`,
-          description: `Permet d'obtenir la liste des mot-clés autorisés dans le Datalake`,
-          operationId: `list_allTags`,
-          produces: [`application/json`],
-          responses: {
-            '200': { $ref: `#/responses/listTagsResponse` },
-            default: { $ref: `#/responses/serverErrorResponse` }
-          }
-        }
-      },
       '/v1/referentiels/granularities': {
         get: {
           tags: [`refs`],
