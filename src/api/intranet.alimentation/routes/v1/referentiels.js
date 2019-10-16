@@ -87,5 +87,4 @@ router.route('/referentiels/organizations')
     referentiels.organizations,
     responses.organizations
   )
-
 module.exports = router

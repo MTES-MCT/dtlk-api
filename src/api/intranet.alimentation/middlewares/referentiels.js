@@ -85,5 +85,15 @@ module.exports = {
     catch (error) {
       next(new apiErrors.ServerError(`Erreur interne au serveur`))
     }
-  }
+  },
+  nomenclatures: async (req, res, next) => {
+    try {
+
+      res.locals.nomenclatures = transform.mongo.nomenclatures(await mongoService.nomenclatures.list())
+      next()
+    }
+    catch (error) {
+      next(new apiErrors.ServerError(`Erreur interne au serveur`))
+    }
+  },
 }
