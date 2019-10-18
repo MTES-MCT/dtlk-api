@@ -643,10 +643,8 @@ let transform = {
         return mongoRows.map( mongoRow => {
           let row = {}
           for (let columnName in mongoRow.toJSON()) {
-            console.log(columnName)
             //let mapping = datafileMillesimedColumns.find(column => column.name === columnName).mapping.split('.')
             let temp = datafileMillesimedColumns.find(column => column.name === columnName)
-            console.log(temp)
             //console.log(mapping)
             row[columnName] = "aaaa"
           }

@@ -85,13 +85,17 @@ let mongoService = {
         }
       }
     },
-    delete: async (rid, millesimes) => {
+    delete: async (rid, millesimes, allMillesimes) => {
       try {
+        listMillesimes = allMillesimes.reduce((accumulatorMillesimes, currentMillesime) => {
+          accumulatorMillesimes.push(currentMillesime.millesime)
+          return accumulatorMillesimes
+        }, [])
         for (let i = 0; i < millesimes; i++) {
-          let MongoRow = row(`${ rid }_${ i + 1 }`)
+          let MongoRow = row(`${ rid }_${ listMillesimes[i] }`)
           await MongoRow.dropCollection()
-          return
         }
+        return
       }
       catch (error) {
         handleError(error, { type: 'ServerError', message: `Erreur interne: Suppresion Fichier de données` })
@@ -610,8 +614,8 @@ let mongoService = {
     remove: {
       ofDatafileMillesime: async (rid, millesime) => {
         try {
-          await MongoJob.remove( { "data.datafile_rid": rid, "data.datafile_millesime": millesime })
-          await MongoJob.remove( { "result.rid": rid, "result.millesime": millesime })
+          await MongoJob.deleteMany( { "data.datafile_rid": rid, "data.datafile_millesime": millesime })
+          await MongoJob.deleteMany( { "result.rid": rid, "result.millesime": millesime })
         }
         catch (error) {
           console.error(error)
@@ -619,8 +623,8 @@ let mongoService = {
       },
       ofDatafile: async rid => {
         try {
-          await MongoJob.remove( { "data.datafile_rid": rid })
-          await MongoJob.remove( { "result.rid": rid })
+          await MongoJob.deleteMany( { "data.datafile_rid": rid })
+          await MongoJob.deleteMany( { "result.rid": rid })
         }
         catch (error) {
           console.error(error)
@@ -628,7 +632,7 @@ let mongoService = {
       },
       ofDataset: async id => {
         try {
-          await MongoJob.remove( { "data.dataset_id": id })
+          await MongoJob.deleteMany( { "data.dataset_id": id })
         }
         catch (error) {
           console.error(error)
