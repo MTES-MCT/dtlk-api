@@ -34,9 +34,8 @@ let commons = {
         let mappingColumnsOfHeader = typeOfHeader.returnMappingColumnsObject(header.name)
         let descriptionColumns = typeOfHeader.returnDescriptionColumnsObject(header.name, header.description)
         let typeColumns = typeOfHeader.returnTypesColumnsObject(header.name)
-        let unitColumns = typeOfHeader.returnUnitColumnsObject(header.name, header.unit)
         for (let name of columnsOfHeader) {
-          arr.push({ name: name, description: descriptionColumns[name] , type: typeColumns[name], mapping: mappingColumnsOfHeader[name], unit: unitColumns[name] })
+          arr.push({ name: name, description: descriptionColumns[name] , type: typeColumns[name], mapping: mappingColumnsOfHeader[name] })
         }
         return arr
       }, [])

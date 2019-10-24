@@ -16,12 +16,5 @@ module.exports = {
     descriptionColumns[name + '_interval_start'] = description + ' - début'
     descriptionColumns[name + '_interval_end'] = description + ' - fin'
     return descriptionColumns
-  },
-  returnUnitColumnsObject: (name, unit) => {
-    let unitColumns = {}
-    unitColumns[name] = unit
-    unitColumns[name + '_interval_start'] = unit + ' - début'
-    unitColumns[name + '_interval_end'] = unit + ' - fin'
-    return unitColumns
   }
 }

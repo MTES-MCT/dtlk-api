@@ -102,9 +102,6 @@ let csvOptions = columns => {
     withColumnDescription: Joi.boolean().required()
       .label('querystring.withColumnDescription ')
       .error( errors => ( { message: 'Le champ "withColumnDescription " est requis et doit être égal à true ou false' } ) ),
-    withColumnUnit: Joi.boolean().required()
-      .label('querystring.withColumnUnit ')
-      .error( errors => ( { message: 'Le champ "withColumnUnit " est requis et doit être égal à true ou false' } ) ),
     orderBy: Joi.array().items(Joi.string().valid(orderables)).single().optional()
       .label('querystring.orderBy')
       .error( errors => ( { message: `Le champ "orderBy" ne doit comporter que des colonnes autorisées ${ orderables.join(', ') }` } ) ),

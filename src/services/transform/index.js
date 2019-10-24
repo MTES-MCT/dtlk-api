@@ -489,7 +489,7 @@ let transform = {
               for (let i = 1; i < datafile.extras.datalake_millesimes + 1; i++) {
                 let millesime = { millesime: listMillesime[i-1] }
                 millesime.rows = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).rows
-                millesime.columns = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type, unit: column.unit } ))
+                millesime.columns = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type } ))
                 apiDatafile.millesimes.push(millesime)
               }
               apiDataset.datafiles.push(apiDatafile)
@@ -549,7 +549,7 @@ let transform = {
             for (let i = 1; i < mongoDatafile.extras.datalake_millesimes + 1; i++) {
               let millesime = { millesime: listMillesime[i-1] }
               millesime.rows = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).rows
-              millesime.columns = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type, unit: column.unit } ))
+              millesime.columns = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type } ))
               apiDatafile.millesimes.push(millesime)
             }
             if (mongoDatafile.dataset.frequency_date) apiDatafile.dataset.frequency_date = mongoDatafile.dataset.frequency_date
@@ -590,7 +590,7 @@ let transform = {
             weburl: mongoDatafile.url + '?millesime=' + millesime,
             millesime: millesime,
             rows: millesimesDatafile.find(info => info.millesime === millesime).rows,
-            columns: millesimesDatafile.find(info => info.millesime === millesime).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type, unit: column.unit } )),
+            columns: millesimesDatafile.find(info => info.millesime === millesime).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type } )),
             dataset: {
               id: String(mongoDatafile.dataset._id),
               title: mongoDatafile.dataset.title,

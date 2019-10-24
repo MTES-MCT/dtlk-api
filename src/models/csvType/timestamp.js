@@ -33,10 +33,5 @@ module.exports = {
     let typeColumns = {}
     typeColumns[name] = 'timestamp'
     return typeColumns
-  },
-  returnUnitColumnsObject: (name, unit) => {
-    let unitColumns = {}
-    unitColumns[name] = unit
-    return unitColumns
   }
 }
