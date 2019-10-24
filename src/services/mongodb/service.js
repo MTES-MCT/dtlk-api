@@ -81,7 +81,7 @@ let mongoService = {
           return
         }
         catch (error) {
-          handleError(error, { type: 'ServerError', message: `Erreur interne: Suppresion millésime Fichier de données` })
+          handleError(error, { type: 'ServerError', message: `Erreur interne: Suppression millésime Fichier de données` })
         }
       }
     },
@@ -98,7 +98,7 @@ let mongoService = {
         return
       }
       catch (error) {
-        handleError(error, { type: 'ServerError', message: `Erreur interne: Suppresion Fichier de données` })
+        handleError(error, { type: 'ServerError', message: `Erreur interne: Suppression Fichier de données` })
       }
     },
     paginate: async criteria => {
