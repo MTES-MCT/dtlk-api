@@ -118,7 +118,7 @@ let commons = {
             parentStopped = true
             clearInterval(checkIntervalJob)
             if (resultProcess.errorsList.length > 0) {
-              reject(new JobDatafileParseCsvError('Il y a des erreurs dans le fichier csv !!! ', { errorsList: resultProcess.errorsList }))
+              reject(new JobDatafileParseCsvError('Il y a des erreurs dans le fichier csv', { errorsList: resultProcess.errorsList }))
             }
             resolve()
           }
