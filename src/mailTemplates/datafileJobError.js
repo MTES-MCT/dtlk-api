@@ -137,7 +137,7 @@ module.exports = (job) => {
     dataset: { title: job.progress_data.dataset.title },
     datafile: {
       title: job.type === 'createDatafile' ? job.data.metadataDatafile.title : job.progress_data.datafile.title,
-      millesime: job.data.metadataDatafile.millesimeDatafile,
+      millesime: job.data.millesimeDatafile,
       creation: job.type === 'createDatafile' ? true : false,
       replaceMillesime: job.type === 'replaceDatafileMillesime' ? true : false,
       addMillesime: job.type === 'addDatafileMillesime' ? true : false

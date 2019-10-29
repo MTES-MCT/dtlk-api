@@ -60,8 +60,13 @@ let createDatafileConsumer =  queue.process('createDatafile', 1 , async function
   }
 
   if (result.success === true) done()
-  if (result.success === false) done(result.error.message)
-
+  if (result.success === false) {
+    done(result.error.message)
+    // Suppression des Jobs enfants si le Job parent est 'Failed'
+    job.progress(99, 100, commons.result.update(result, { step: `Purge des objets temporaires - démarrage` }))
+    await commons.job.purgeComplete(job.id, job.data.tokenFile, result)
+    job.progress(100, 100, commons.result.update(result, { step: `Purge des objets temporaires - fin`, progress: 100 }))
+  }
   // send mail with result of the job
   let mail = await commons.mail.send(job.id)
   // save message in mongo

@@ -79,6 +79,10 @@ let commons = {
                 resolve()
               }
             })
+            .catch(err => {
+                clearInterval(checkIntervalSubJob)
+                console.error(`Le Job avec l'id ${ subJobStatus.id } est arrété`) 
+            })
         }, 5000)
       })
 
