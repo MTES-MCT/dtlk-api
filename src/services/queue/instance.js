@@ -9,7 +9,7 @@ if (config.redis.is_sentinel) {
     prefix: config.redis.prefix,
     redis: {
       createClientFactory: () => new Redis({
-        sentinels: config.redis.sentinel.hosts,
+        sentinels: [ { host: config.redis.sentinel.hosts, port: config.redis.sentinel.port } ],
         name: config.redis.sentinel.master_name
       })
     }

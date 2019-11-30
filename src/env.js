@@ -4,7 +4,8 @@ let redis_cfg = {
 }
 if (redis_cfg.is_sentinel) {
   redis_cfg.sentinel = {
-    hosts: eval(process.env.REDIS_SENTINELS),
+    hosts: process.env.REDIS_SENTINEL_DNS_NAME,
+    port: process.env.REDIS_SENTINEL_PORT,
     master_name: process.env.REDIS_SENTINEL_MASTER_NAME
   }
 }
