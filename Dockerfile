@@ -2,7 +2,7 @@
 # Dockerfile for Datalake server (prod mode)
 ############################################
 
-FROM keymetrics/pm2:12-slim as base
+FROM keymetrics/pm2:latest-alpine as base
 
 LABEL maintainer="Datalake Team" description="Docker image for Datalake server"
 
