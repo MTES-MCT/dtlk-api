@@ -56,7 +56,7 @@ let middlewares = {
         if (listmillesime.includes(moment(res.locals.millesime).format('YYYY-MM'))){
           return next(new apiErrors.ServerError(`Erreur: Le millésime que vous souhaitez ajouter existe déjà`))
         }else{
-          let kueJob = await queueService.addDatafileMillesimeJob.create(res.locals.user,res.locals.dataset,res.locals.millesime, res.locals.datafile, res.locals.uploadedFile.file)
+          let kueJob = await queueService.addDatafileMillesimeJob.create(res.locals.user,res.locals.dataset,res.locals.millesime, res.locals.datafile, res.locals.uploadedFile.file, res.locals.dateDiffusion)
           await queueService.uploadedFileJob.remove(res.locals.uploadedFile.jobId)
           res.locals.newJob = transformForApi.kue.jobs(kueJob)
           return next()
@@ -68,7 +68,7 @@ let middlewares = {
     },
     replaceDatafileMillesime: async (req, res, next) => {
       try {
-        let kueJob = await queueService.replaceDatafileMillesimeJob.create(res.locals.user, res.locals.dataset, res.locals.datafile, res.locals.datafileMillesime, res.locals.uploadedFile.file)
+        let kueJob = await queueService.replaceDatafileMillesimeJob.create(res.locals.user, res.locals.dataset, res.locals.datafile, res.locals.datafileMillesime, res.locals.uploadedFile.file, res.locals.dateDiffusion)
         await queueService.uploadedFileJob.remove(res.locals.uploadedFile.jobId)
         res.locals.newJob = transformForApi.kue.jobs(kueJob)
         next()

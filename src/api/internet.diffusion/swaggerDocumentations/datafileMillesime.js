@@ -118,6 +118,18 @@ let specs = {
               format: `date-time`,
               example: datafileMillesimed.millesime
             },
+            date_diffusion: {
+              description: `Date de diffusion du fichier de données - format YYYY-MM-DD`,
+              type: `string`,
+              format: `date`,
+              example: `2017-10-28`
+            },
+            heure_diffusion: {
+              description: `Heure de diffusion du fichier de données - format HH:mm`,
+              type: `string`,
+              format: `time`,
+              example: `15:30`
+            },
             title: {
               description: `Titre du fichier de données`,
               type: `string`,

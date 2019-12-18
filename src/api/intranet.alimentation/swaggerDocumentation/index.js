@@ -1788,6 +1788,18 @@ module.exports = {
                   format: `date-time`,
                   example: `2017-10`
                 },
+                date_diffusion: {
+                  description: `Date de diffusion du fichier de données - format YYYY-MM-DD`,
+                  type: `string`,
+                  format: `date`,
+                  example: `2017-10-28`
+                },
+                heure_diffusion: {
+                  description: `Heure de diffusion du fichier de données - format HH:mm`,
+                  type: `string`,
+                  format: `time`,
+                  example: `15:30`
+                },
                 rows: {
                   description: `Nombre de lignes dans le fichier de données`,
                   type: `integer`,
@@ -2043,6 +2055,18 @@ module.exports = {
                 type: `string`,
                 format: `date-time`,
                 example: `2017-06`
+              },
+              date_diffusion: {
+                description: `Date de diffusion du fichier de données - format YYYY-MM-DD`,
+                type: `string`,
+                format: `date`,
+                example: `2017-10-28`
+              },
+              heure_diffusion: {
+                description: `Heure de diffusion du fichier de données - format HH:mm`,
+                type: `string`,
+                format: `time`,
+                example: `15:30`
               },
               datafile_metadata: {
                 description: `Les métadonnées du fichier de donnée (si il s'agit d'une tâche de type createDatafile)`,
@@ -2548,7 +2572,19 @@ module.exports = {
               type: `string`,
               format: `date-time`,
               example: `2017-10`
-            }
+            },
+            date_diffusion: {
+              description: `Date de diffusion du fichier de données - format YYYY-MM-DD`,
+              type: `string`,
+              format: `date`,
+              example: `2017-10-28`
+            },
+            heure_diffusion: {
+              description: `Heure de diffusion du fichier de données - format HH:mm`,
+              type: `string`,
+              format: `time`,
+              example: `15:30`
+            },
           }
         }
       },
@@ -2662,6 +2698,18 @@ module.exports = {
               description: `Notice légale concernant le fichier de données`,
               type: `string`,
               example: `Ces données.......`
+            },
+            date_diffusion: {
+              description: `Date de diffusion du fichier de données - format YYYY-MM-DD`,
+              type: `string`,
+              format: `date`,
+              example: `2017-10-28`
+            },
+            heure_diffusion: {
+              description: `Heure de diffusion du fichier de données - format HH:mm`,
+              type: `string`,
+              format: `time`,
+              example: `15:30`
             },
             millesime: {
               description: `Le millésime du fichier descriptif - format YYYY-MM`,

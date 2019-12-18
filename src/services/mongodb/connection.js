@@ -16,8 +16,4 @@ if (env === 'development') {
   //mongoose.set('debug', true)
 }
 
-module.exports = (name) => mongoose.createConnection(eval(name + 'Uri'), {
-	keepAlive: 1,
-	useNewUrlParser: true,
-	useUnifiedTopology: true
-})
+module.exports = (name) => mongoose.createConnection(eval(name + 'Uri'), { keepAlive: 1, useNewUrlParser: true })

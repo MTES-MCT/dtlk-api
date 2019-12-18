@@ -539,6 +539,18 @@ module.exports = {
                   format: `date-time`,
                   example: `2017-10`
                 },
+                date_diffusion: {
+                  description: `Date de diffusion du fichier de données - format YYYY-MM-DD`,
+                  type: `string`,
+                  format: `date`,
+                  example: `2017-10-28`
+                },
+                heure_diffusion: {
+                  description: `Heure de diffusion du fichier de données - format HH:mm`,
+                  type: `string`,
+                  format: `time`,
+                  example: `15:30`
+                },
                 rows: {
                   description: `Nombre de lignes dans le fichier de données`,
                   type: `integer`,

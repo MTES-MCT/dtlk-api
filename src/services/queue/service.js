@@ -223,6 +223,8 @@ let service = {
         idDataset: dataset.id,
         idUser: user.id,
         millesimeDatafile: moment(millesime).format('YYYY-MM'),
+        date_diffusion: datafilePayload.date_diffusion,
+        heure_diffusion: datafilePayload.heure_diffusion,
         metadataDatafile: datafilePayload
       }
       return await service.job.add('createDatafile', false, data)
@@ -245,7 +247,7 @@ let service = {
     }
   },
   addDatafileMillesimeJob: {
-    create: async (user, dataset,millesime, datafile, file) => {
+    create: async (user, dataset,millesime, datafile, file, dateDiffusion) => {
       let data = {
         title: `Job addDatafileMillesime on dataset ${ dataset.id } and datafile ${ datafile.rid }`,
         tokenFile: file.token,
@@ -253,7 +255,9 @@ let service = {
         idDataset: dataset.id,
         idUser: user.id,
         ridDatafile: datafile.rid,
-        millesimeDatafile: moment(millesime).format('YYYY-MM')
+        millesimeDatafile: moment(millesime).format('YYYY-MM'),
+        date_diffusion: dateDiffusion.date_diffusion,
+        heure_diffusion: dateDiffusion.heure_diffusion
       }
       return await service.job.add('addDatafileMillesime', false, data)
     },
@@ -275,7 +279,7 @@ let service = {
     }
   },
   replaceDatafileMillesimeJob: {
-    create: async (user, dataset, datafile, millesime, file) => {
+    create: async (user, dataset, datafile, millesime, file, dateDiffusion) => {
       let data = {
         title: `Job replaceDatafileMillesime on dataset ${ dataset.id }, datafile ${ datafile.rid } and millesime ${ millesime }`,
         tokenFile: file.token,
@@ -283,7 +287,9 @@ let service = {
         idDataset: dataset.id,
         idUser: user.id,
         ridDatafile: datafile.rid,
-        millesimeDatafile: millesime
+        millesimeDatafile: millesime,
+        date_diffusion: dateDiffusion.date_diffusion,
+        heure_diffusion: dateDiffusion.heure_diffusion
       }
       return await service.job.add('replaceDatafileMillesime', false, data)
     },

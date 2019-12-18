@@ -41,7 +41,7 @@ let replaceDatafileMillesimeConsumer =  queue.process('replaceDatafileMillesime'
     job.progress(95, 100, commons.result.update(result, { step: `Traitement du fichier - fin`, progress: 95 }))
 
     job.progress(95, 100, commons.result.update(result, { step: `Remplacement du millésime ${ job.data.millesimeDatafile } du fichier de données dans udata - démarrage` }))
-    datafile = await commons.udata.updateDatafileMillesime(result.user.apiKey, job.data.idDataset, job.data.ridDatafile, Number(job.data.millesimeDatafile), result.split.totalLines, result.columns)
+    datafile = await commons.udata.updateDatafileMillesime(result.user.apiKey, job.data.idDataset, job.data.ridDatafile, job.data.millesimeDatafile, result.split.totalLines, result.columns, job.data.date_diffusion, job.data.heure_diffusion)
     job.progress(96, 100, commons.result.update(result, { step: `Remplacement du millésime ${ job.data.millesimeDatafile } du fichier de données dans udata - fin`, progress: 96, datafile: datafile })) // => result.datafile = { rid, title, description, millesimes, millesimes_info: { millesime, rows, columns }, url }
 
     job.progress(96, 100, commons.result.update(result, { step: `Mise en conformité des objets Mongo - démarrage` }))

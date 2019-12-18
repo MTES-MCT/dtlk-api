@@ -10,6 +10,7 @@ let MongoJob = require('../../mongodb/hub/job')
 let { ihm_diffusion_url } = require('../../../env')
 let { JobDatafileParseCsvError } = require('../../errors').queue
 let pause = require('../../../utils/pause')
+let moment = require('moment-timezone')
 
 let commons = {
   job: {
@@ -132,21 +133,28 @@ let commons = {
   },
   udata: {
     createDatafile: async (userApiKey, datasetId, datafileMetadata, millesimeDatafile, rows, columns) => {
+      if(datafileMetadata.date_diffusion) datafileMetadata.date_diffusion = moment(datafileMetadata.date_diffusion).format('YYYY-MM-DD')
+      if(datafileMetadata.heure_diffusion) datafileMetadata.heure_diffusion = moment(datafileMetadata.heure_diffusion).format('HH:mm')
       let metadata = {
         ...datafileMetadata,
         millesimes: 1,
-        millesimes_info: [{ millesime: millesimeDatafile, rows: rows, columns: columns }],
+        millesimes_info: [{ millesime: millesimeDatafile, date_diffusion: datafileMetadata.date_diffusion, heure_diffusion: datafileMetadata.heure_diffusion, rows: rows, columns: columns }],
         url: `${ ihm_diffusion_url }`
       }
       let udataDatafile = await udataApi.datafiles.new(userApiKey, datasetId, transformForUdata.alimentationApi.datafile(metadata))
       return transformForAlimentationApi.udata.datafiles(udataDatafile)
     },
-    addDatafileMillesime: async (userApiKey, datasetId, datafileRid, millesimeDatafile, rows, columns) => {
-      let udataDatafile = await udataApi.datafiles.millesimes.add(userApiKey, datasetId, datafileRid, millesimeDatafile, rows, columns)
+    addDatafileMillesime: async (userApiKey, datasetId, datafileRid, millesimeDatafile, rows, columns, date_diffusion, heure_diffusion) => {
+      if(date_diffusion) date_diffusion = moment(date_diffusion).format('YYYY-MM-DD')
+      if(heure_diffusion) heure_diffusion = moment(heure_diffusion).format('HH:mm')
+      let udataDatafile = await udataApi.datafiles.millesimes.add(userApiKey, datasetId, datafileRid, millesimeDatafile, rows, columns, date_diffusion, heure_diffusion)
       return transformForAlimentationApi.udata.datafiles(udataDatafile)
     },
-    updateDatafileMillesime: async (userApiKey, datasetId, datafileRid, datafileMillesime, rows, columns) => {
-      let udataDatafile = await udataApi.datafiles.millesimes.update(userApiKey, datasetId, datafileRid, datafileMillesime, rows, columns)
+    updateDatafileMillesime: async (userApiKey, datasetId, datafileRid, datafileMillesime, rows, columns, date_diffusion, heure_diffusion) => {
+      if(date_diffusion) date_diffusion = moment(date_diffusion).format('YYYY-MM-DD')
+      if(heure_diffusion) heure_diffusion = moment(heure_diffusion).format('HH:mm')
+      datafileMillesime = moment(datafileMillesime).format('YYYY-MM')
+      let udataDatafile = await udataApi.datafiles.millesimes.update(userApiKey, datasetId, datafileRid, datafileMillesime, rows, columns, date_diffusion, heure_diffusion)
       return transformForAlimentationApi.udata.datafiles(udataDatafile)
     }
   },

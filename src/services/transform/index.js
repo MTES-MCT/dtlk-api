@@ -321,9 +321,11 @@ let transform = {
                 task: kueJob.type,
                 dataset_id: kueJob.data.idDataset,
                 file_name: kueJob.data.nameFile,
-                datafile_millesime: moment(kueJob.data.millesimeDatafile).format('YYYY-MM')
+                datafile_millesime: moment(kueJob.data.millesimeDatafile).format('YYYY-MM'),
               }
             }
+            if(kueJob.data.date_diffusion) apiJob.data.date_diffusion = moment(kueJob.data.date_diffusion).format('YYYY-MM-DD')
+            if(kueJob.data.heure_diffusion) apiJob.data.heure_diffusion = moment(kueJob.data.heure_diffusion).format('HH:mm')
             if (kueJob.type === 'createDatafile') {
               apiJob.data.datafile_metadata = kueJob.data.metadataDatafile
               apiJob.data.datafile_metadata.datafile_millesime = moment(kueJob.data.millesimeDatafile).format('YYYY-MM')
@@ -481,13 +483,25 @@ let transform = {
                 if (datafile.extras.datalake_temporal_coverage_end) apiDatafile.temporal_coverage.end = datafile.extras.datalake_temporal_coverage_end
               }
               let listMillesime = millesimesDatafile.reduce((accumulatorMillesimes, currentMillesime) => {
-                accumulatorMillesimes.push(currentMillesime.millesime)
+                if(currentMillesime.date_diffusion === moment(new Date()).format('YYYY-MM-DD')){
+                  if(currentMillesime.heure_diffusion <= moment(new Date()).format('HH:mm')){
+                    accumulatorMillesimes.push(currentMillesime.millesime)
+                  }
+                }
+                if(currentMillesime.date_diffusion < moment(new Date()).format('YYYY-MM-DD')){
+                    accumulatorMillesimes.push(currentMillesime.millesime)
+                  
+                }
+                if(!(currentMillesime.date_diffusion) && !(currentMillesime.heure_diffusion)){
+                    accumulatorMillesimes.push(currentMillesime.millesime)
+                  }
                 return accumulatorMillesimes
               }, [])
-
               if (datafile.extras.datalake_legal_notice) apiDatafile.legal_notice = datafile.extras.datalake_legal_notice
-              for (let i = 1; i < datafile.extras.datalake_millesimes + 1; i++) {
+              for (let i = 1; i < listMillesime.length + 1; i++) {
                 let millesime = { millesime: listMillesime[i-1] }
+                millesime.date_diffusion = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).date_diffusion
+                millesime.heure_diffusion = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).heure_diffusion
                 millesime.rows = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).rows
                 millesime.columns = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type } ))
                 apiDatafile.millesimes.push(millesime)
@@ -541,13 +555,25 @@ let transform = {
               if (mongoDatafile.extras.datalake_temporal_coverage_end) apiDatafile.temporal_coverage.end = mongoDatafile.extras.datalake_temporal_coverage_end
             }
             let listMillesime = millesimesDatafile.reduce((accumulatorMillesimes, currentMillesime) => {
-              accumulatorMillesimes.push(currentMillesime.millesime)
+              if(currentMillesime.date_diffusion === moment(new Date()).format('YYYY-MM-DD')){
+                if(currentMillesime.heure_diffusion <= moment(new Date()).format('HH:mm')){
+                  accumulatorMillesimes.push(currentMillesime.millesime)
+                }
+              }
+              if(currentMillesime.date_diffusion < moment(new Date()).format('YYYY-MM-DD')){
+                  accumulatorMillesimes.push(currentMillesime.millesime)
+                
+              }
+              if(!(currentMillesime.date_diffusion) && !(currentMillesime.heure_diffusion)){
+                  accumulatorMillesimes.push(currentMillesime.millesime)
+                }
               return accumulatorMillesimes
             }, [])
-
             if (mongoDatafile.extras.datalake_legal_notice) apiDatafile.legal_notice = mongoDatafile.extras.datalake_legal_notice
-            for (let i = 1; i < mongoDatafile.extras.datalake_millesimes + 1; i++) {
+            for (let i = 1; i < listMillesime.length + 1; i++) {
               let millesime = { millesime: listMillesime[i-1] }
+              millesime.date_diffusion = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).date_diffusion
+              millesime.heure_diffusion = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).heure_diffusion
               millesime.rows = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).rows
               millesime.columns = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type } ))
               apiDatafile.millesimes.push(millesime)
@@ -589,6 +615,8 @@ let transform = {
             published: mongoDatafile.published,
             weburl: mongoDatafile.url + '?millesime=' + millesime,
             millesime: millesime,
+            date_diffusion: millesimesDatafile.find(info => info.millesime === millesime).date_diffusion,
+            heure_diffusion: millesimesDatafile.find(info => info.millesime === millesime).heure_diffusion,
             rows: millesimesDatafile.find(info => info.millesime === millesime).rows,
             columns: millesimesDatafile.find(info => info.millesime === millesime).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type } )),
             dataset: {

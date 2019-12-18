@@ -240,7 +240,7 @@ let api = {
       }
     },
     millesimes: {
-      add: async (apiKey, datasetId, datafileRid, millesimeDatafile, rows, columns) => {
+      add: async (apiKey, datasetId, datafileRid, millesimeDatafile, rows, columns, date_diffusion, heure_diffusion) => {
         try {
           let udataDatafile= await api.resources.get(apiKey, datasetId, datafileRid)
           let metadata = {
@@ -254,7 +254,7 @@ let api = {
           let millesime =  metadata.extras.datalake_millesimes + 1
           metadata.extras.datalake_millesimes = millesime
           let millesimes_info = JSON.parse(udataDatafile.extras.datalake_millesimes_info)
-          millesimes_info.push({ millesime: millesimeDatafile, rows: rows, columns: columns })
+          millesimes_info.push({ millesime: millesimeDatafile, date_diffusion: date_diffusion, heure_diffusion: heure_diffusion, rows: rows, columns: columns })
           metadata.extras.datalake_millesimes_info = JSON.stringify(millesimes_info)
           return await api.resources.update.metadata(apiKey, datasetId, datafileRid, metadata)
         }
@@ -262,7 +262,7 @@ let api = {
           throw handleError(error, { type: 'ServerError', message: `Erreur interne: Mise-à-jour metadata Fichier de données` })
         }
       },
-      update: async (apiKey, datasetId, datafileRid, millesime, rows, columns) => {
+      update: async (apiKey, datasetId, datafileRid, millesime, rows, columns, date_diffusion, heure_diffusion) => {
         try {
           let udataDatafile= await api.resources.get(apiKey, datasetId, datafileRid)
           let metadata = {
@@ -275,7 +275,13 @@ let api = {
           }
           let millesimes_info = JSON.parse(udataDatafile.extras.datalake_millesimes_info)
           let indexMillesimeToReplaced = millesimes_info.findIndex(item => item.millesime === millesime)
+          if( typeof(date_diffusion) !== 'undefined' && typeof(heure_diffusion) !== 'undefined' ) {
+          millesimes_info[indexMillesimeToReplaced] = { millesime: millesime,date_diffusion: date_diffusion,heure_diffusion: heure_diffusion, rows: rows, columns: columns }
+          } else {
           millesimes_info[indexMillesimeToReplaced] = { millesime: millesime, rows: rows, columns: columns }
+     
+          }
+          console.log( millesimes_info[indexMillesimeToReplaced])
           metadata.extras.datalake_millesimes_info = JSON.stringify(millesimes_info)
           return await api.resources.update.metadata(apiKey, datasetId, datafileRid, metadata)
         }

@@ -105,6 +105,14 @@ let millesimeDate= {
   .label('body.millesime')
   .error((errors) => { return { message: `Le champ "millesime" doit être une date valide (YYYY-MM)` } }),
 }
+let dateDiffusion= {
+  date_diffusion: Joi.date().format('YYYY-MM-DD').optional()
+  .label('body.date_diffusion')
+  .error((errors) => { return { message: `Le champ "date_diffusion" doit être une date valide (YYYY-MM-DD)` } }),
+  heure_diffusion: Joi.date().format('HH:mm').optional()
+  .label('body.heure_diffusion')
+  .error((errors) => { return { message: `Le champ "heure_diffusion" doit être une date valide (HH:mm)` } }),
+}
 let attachmentMetadata = {
   title: Joi.string().required()
     .label('body.title')
@@ -311,22 +319,28 @@ module.exports = {
     }
   ],
   tokenFileInBody: [
-    body(uploadedFileToken),
+    body({ ...uploadedFileToken, ...millesimeDate, ... dateDiffusion }),
     (req, res, next) => {
+      res.locals.dateDiffusion = req.body
+      res.locals.datafileMillesime = req.body.millesime
       res.locals.tokenFile = req.body.tokenFile
+      delete res.locals.dateDiffusion.tokenFile
       next()
     }
   ],
   tokenFileAndMillesimeDateInBody: [
-    body({ ...uploadedFileToken, ...millesimeDate }),
+    body({ ...uploadedFileToken, ...millesimeDate, ... dateDiffusion }),
     (req, res, next) => {
+      res.locals.dateDiffusion = req.body
       res.locals.millesime = req.body.millesime
       res.locals.tokenFile = req.body.tokenFile
+      delete res.locals.dateDiffusion.tokenFile
+      delete res.locals.dateDiffusion.millesime
       next()
     }
   ],
   newDatafileInBody: [
-    body({ ...uploadedFileToken, ...datafileMetadata, ...millesimeDate }),
+    body({ ...uploadedFileToken, ...datafileMetadata, ...millesimeDate, ... dateDiffusion}),
     (req, res, next) => {
       res.locals.datafilePayload = req.body
       res.locals.millesime = req.body.millesime

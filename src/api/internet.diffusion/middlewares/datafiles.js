@@ -42,9 +42,21 @@ module.exports = {
       let mongoDatafile = await mongoService.datafiles.byRid(res.locals.datafileRid)
       let millesimesInfo = JSON.parse(mongoDatafile.extras.datalake_millesimes_info)
       let listMillesime = millesimesInfo.reduce((accumulatorMillesimes, currentMillesime) => {
-        accumulatorMillesimes.push(currentMillesime.millesime)
-        return accumulatorMillesimes
-      }, [])
+        if(currentMillesime.date_diffusion === moment(new Date()).format('YYYY-MM-DD')){
+          if(currentMillesime.heure_diffusion <= moment(new Date()).format('HH:mm')){
+            accumulatorMillesimes.push(currentMillesime.millesime)
+          }
+        }
+        if(currentMillesime.date_diffusion < moment(new Date()).format('YYYY-MM-DD')){
+            accumulatorMillesimes.push(currentMillesime.millesime)
+          
+        }
+        if(!(currentMillesime.date_diffusion) && !(currentMillesime.heure_diffusion)){
+            accumulatorMillesimes.push(currentMillesime.millesime)
+          }
+          return accumulatorMillesimes
+        }, [])
+      
       res.locals.datafileMillesime = res.locals.datafileMillesime ? moment(res.locals.datafileMillesime).format('YYYY-MM') : listMillesime[mongoDatafile.extras.datalake_millesimes - 1]
       if (!listMillesime.includes(res.locals.datafileMillesime)) return next(new apiErrors.NotFoundError(`Le millésime ${ res.locals.datafileMillesime } n'existe pas pour le fichier de données avec le rid ${ res.locals.datafileRid }`))
       res.locals.datafileMillesimed = await transformForApi.mongo.datafileMillesime(mongoDatafile, res.locals.datafileMillesime)
