@@ -75,6 +75,19 @@ module.exports = {
           }
         }
       },
+      '/v1/referentiels/allTags': {
+        get: {
+          tags: [`referentiels`],
+          summary: `Lister tous les mots-clé disponibles`,
+          description: `Permet d'obtenir la liste des mot-clés autorisés dans le Datalake`,
+          operationId: `list_allTags`,
+          produces: [`application/json`],
+          responses: {
+            '200': { $ref: `#/responses/listTagsResponse` },
+            default: { $ref: `#/responses/serverErrorResponse` }
+          }
+        }
+      },
       '/v1/nomenclatures/bilanEnergie': {
         get: {
           tags: [`nomenclatures`],
@@ -264,6 +277,11 @@ module.exports = {
         type: `array`,
         description: `Liste des referentiels`,
         items: { $ref: `#/definitions/refStationEsu` }
+      },
+      ListTags: {
+        type: `array`,
+        description: `Liste de mots-clé`,
+        items: { $ref: `#/definitions/listAllTags` }
       },
       PolluantEau: {
         type: `object`,
@@ -515,6 +533,54 @@ module.exports = {
             type: `array`,
             description: `Référentiel station_esu`,
             items: { $ref: `#/definitions/StationEsu` }
+          }
+        }
+      },
+      listAllTags:{
+        type: `object`,
+        description: `La liste des mots-clé du Datalake`,
+        required: [`Tag`],
+        properties: {
+          All_Tags: {
+            type: `array`,
+            description: `Liste de mots-clé`,
+            items: { $ref: `#/definitions/Tag` }
+          }
+        }
+      },
+      Tag: {
+        type: `object`,
+        description: `un mot-clé`,
+        required: [`value`, `display`, `topic`, `eurovoc`, `ecoplanet`],
+        properties: {
+          value: {
+            description: `Valeur de stockage dans udata du mot-clé`,
+            type: `string`,
+            example: `espace-urbain`
+          },
+          display: {
+            description: `Valeur d'affichage du mot-clé`,
+            type: `string`,
+            example: `espace urbain`
+          },
+          topic: {
+            description: `Thèmes auxquels appartient le mot-clé`,
+            type: `array`,
+            items: {
+              type: `string`,
+              description: `un thème`,
+              example: `Environnement`
+            }
+          },
+          eurovoc: {
+            description: `Correspondance eurovoc du mot-clé (peut-être vide)`,
+            type: `string`,
+            example: ``
+          },
+          ecoplanet: {
+            description: `Correspondance ecoplanet du mot-clé (peut-être vide)`,
+            type: `string`,
+            example: ``
           }
         }
       },
@@ -1469,6 +1535,10 @@ module.exports = {
       listRefrefStationEsuResponse: {
         description: `Réponse avec une liste de référentiels`,
         schema: { $ref: `#/definitions/ListRefrefStationEsu` }
+      },
+      listTagsResponse: {
+        description: `Réponse avec une liste de mot-clés`,
+        schema: { $ref: `#/definitions/ListTags` }
       },
       listNomencBilanEnergieResponse: {
         description: `Réponse avec une liste de nomenclatures de type " BilanEnergie "`,

@@ -42,5 +42,9 @@ module.exports = {
   csl_operation: (req, res, next) => {
     try { res.json(res.locals.csl_operation) }
     catch (error) { next(error) }
-  }
+  },
+  allTags: (req, res, next) => {
+    try { res.json(res.locals.allTags) }
+    catch (error) { next(error) }
+  },
 }

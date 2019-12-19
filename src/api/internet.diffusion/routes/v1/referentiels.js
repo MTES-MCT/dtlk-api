@@ -39,5 +39,14 @@ router.route('/referentiels/station_Esu')
     referentiels.station_Esu,
     responses.station_Esu
   )
+/**
+  * GET ${basePath_intra}/v1/referentiels/alltags
+  * api route: get the list of tags
+  */
+ router.route('/referentiels/alltags')
+   .get(
+     referentiels.searchAllTags,
+     responses.allTags
+   )
 
 module.exports = router

@@ -39,4 +39,13 @@ module.exports = {
           next(new apiErrors.ServerError(`Erreur interne au serveur`))
         }
     },
+    searchAllTags: async (req, res, next) => {
+      try {
+        res.locals.allTags = transform.mongo.alltags(await mongoService.tags.findAll())
+        next()
+      }
+      catch (error) {
+        next(new apiErrors.ServerError(`Erreur interne au serveur`))
+      }
+    }
 }

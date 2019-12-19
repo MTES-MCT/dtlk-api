@@ -567,6 +567,18 @@ let transform = {
             throw new transformErrors.MongoToDiffusionApiError(`Erreur de conversion des référentiels mongo`)
           }
       },
+      alltags: mongoTags => {
+        try {
+          let tagsToConvert = Array.isArray(mongoTags) ? mongoTags : [mongoTags]
+          let convertedTags = tagsToConvert.map(mongoTag => {
+            return { value: mongoTag.value, display: mongoTag.display, topics: mongoTag.topics, eurovoc: mongoTag.eurovoc || '', ecoplanet: mongoTag.ecoplanet || '' }
+          })
+          return Array.isArray(mongoTags) ? convertedTags : convertedTags[0]
+        }
+        catch (error) {
+          throw new transformErrors.MongoToAlimentationApiError(`Erreur de conversion d'un tag mongo`)
+        }
+      },
       datasets: mongoDatasets => {
         try {
           let datasetsToConvert = Array.isArray(mongoDatasets) ? mongoDatasets : [mongoDatasets]

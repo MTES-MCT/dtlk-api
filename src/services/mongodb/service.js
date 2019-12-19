@@ -129,6 +129,14 @@ let mongoService = {
       catch (error) {
         handleError(error, { type: 'ServerError', message: `Erreur interne: Mot-clé` })
       }
+    },
+    findAll: async () => {
+      try {
+        return await MongoTag.find({})
+      }
+      catch (error) {
+        handleError(error, { type: 'ServerError', message: `Erreur interne: Recherche de la liste des mots clés` })
+      }
     }
   },
   users: {
