@@ -3,6 +3,13 @@ let udataConnection = require('./connection')('udata')
 let hubConnection = require('./connection')('hub')
 let { mongo: errors } = require('../errors')
 let MongoTag = require('./hub/referentiel/tag')
+let MongoRefsPolluante_eau = require('./hub/referentiel/polluant_eau')
+let MongoRefsPort = require('./hub/referentiel/port')
+let MongoRefsStation_air = require('./hub/referentiel/station_air')
+let MongoRefsStation_esu = require('./hub/referentiel/station_esu')
+let MongoNomencBilanenergie = require('./hub/nomenclature/bilanenergie')
+let MongoNomencCsl_filiere = require('./hub/nomenclature/csl_filiere')
+let MongoNomencCsl_operation = require('./hub/nomenclature/csl_operation')
 let MongoLog = require('./hub/log')
 let MongoUser = require('./udata/user')
 let MongoJob = require('./hub/job')
@@ -21,6 +28,81 @@ let handleError = (error, defaultError) => {
   throw new errors[defaultError.type](defaultError.message)
 }
 let mongoService = {
+  nomenclatures: { 
+    listBilanenergie: async () => {
+      try {
+        let bilanEnergie = await MongoNomencBilanenergie.find({})
+        let nomenclatures = { bilanEnergie : bilanEnergie }
+        return nomenclatures
+      }
+      catch (error) {
+        handleError(error, { type: 'ServerError', message: `Erreur interne: Recherche de la liste des Bilanenergie` })
+      }
+    },
+    listCslFiliere: async () => {
+      try {
+        let csl_filiere = await MongoNomencCsl_filiere.find({})
+        let nomenclatures = { csl_filiere: csl_filiere }
+        return nomenclatures
+      }
+      catch (error) {
+        handleError(error, { type: 'ServerError', message: `Erreur interne: Recherche de la liste des Csl_filiere` })
+      }
+    },
+    listCslOperation: async () => {
+      try {
+        let csl_operation = await MongoNomencCsl_operation.find({})
+        let nomenclatures = { csl_operation: csl_operation }
+        return nomenclatures
+      }
+      catch (error) {
+        handleError(error, { type: 'ServerError', message: `Erreur interne: Recherche de la liste des Csl_operation` })
+      }
+    }
+  },
+  referentiels: { 
+    listPolluanteEau: async () => {
+      try {
+        let polluante_eau = await MongoRefsPolluante_eau.find({})
+        let referentiels = { polluante_eau : polluante_eau }
+        console.log(referentiels)
+        return referentiels
+      }
+      catch (error) {
+        handleError(error, { type: 'ServerError', message: `Erreur interne: Recherche de la liste des polluante_eau` })
+      }
+    },
+    listPort: async () => {
+      try {
+        let port = await MongoRefsPort.find({})
+        let referentiels = { port: port }
+        return referentiels
+      }
+      catch (error) {
+        handleError(error, { type: 'ServerError', message: `Erreur interne: Recherche de la liste des port` })
+      }
+    },
+    listStationAir: async () => {
+      try {
+        let station_air = await MongoRefsStation_air.find({})
+        let referentiels = { station_air: station_air }
+        return referentiels
+      }
+      catch (error) {
+        handleError(error, { type: 'ServerError', message: `Erreur interne: Recherche de la liste des station_air` })
+      }
+    },
+    listStationEsu: async () => {
+      try {
+        let station_esu = await MongoRefsStation_esu.find({})
+        let referentiels = { station_esu: station_esu }
+        return referentiels
+      }
+      catch (error) {
+        handleError(error, { type: 'ServerError', message: `Erreur interne: Recherche de la liste des station_esu` })
+      }
+    }
+  },
   tags: {
     search: async (searchTerm, limit) => {
       try {

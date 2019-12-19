@@ -425,6 +425,148 @@ let transform = {
   },
   toDiffusionApi: {
     mongo: {
+      bilanEnergie: mongoNomenclatures => {
+        try {
+          let nomenclaturesToConvert = Array.isArray(mongoNomenclatures) ? mongoNomenclatures : [mongoNomenclatures]
+          let convertedNomenclatures = nomenclaturesToConvert.map(nomenclature => {
+          return{ bilan_Energie: nomenclature.bilanEnergie.map(bilanEnergie => { 
+                    return {code: bilanEnergie.code,
+                            name: bilanEnergie.name || '',
+                            unit: bilanEnergie.unit,
+                            level: bilanEnergie.level || '',
+                            data_type: bilanEnergie.data_type || '',
+                            flow_type: bilanEnergie.flow_type }   
+                  })
+                }
+          })
+          return Array.isArray(convertedNomenclatures) ? convertedNomenclatures : convertedNomenclatures[0]
+        }
+        catch (error) {
+          throw new transformErrors.MongoToAlimentationApiError(`Erreur de conversion des nomenclatures "bilanEnergie" mongo`)
+        }
+      },
+      cslFiliere: mongoNomenclatures => {
+        try {
+          let nomenclaturesToConvert = Array.isArray(mongoNomenclatures) ? mongoNomenclatures : [mongoNomenclatures]
+          let convertedNomenclatures = nomenclaturesToConvert.map(nomenclature => {
+          return{ csl_filiere: nomenclature.csl_filiere.map(csl_filiere => { 
+                    return {code: csl_filiere.code,
+                            name: csl_filiere.name || '' }   
+                  })
+                }
+          })
+          return Array.isArray(convertedNomenclatures) ? convertedNomenclatures : convertedNomenclatures[0]
+        }
+        catch (error) {
+          throw new transformErrors.MongoToAlimentationApiError(`Erreur de conversion des nomenclatures "csl_filiere" mongo`)
+        }
+      },
+      cslOperation: mongoNomenclatures => {
+        try {
+          let nomenclaturesToConvert = Array.isArray(mongoNomenclatures) ? mongoNomenclatures : [mongoNomenclatures]
+          let convertedNomenclatures = nomenclaturesToConvert.map(nomenclature => {
+          return{ csl_operation: nomenclature.csl_operation.map(csl_operation => { 
+                    return {code_1: csl_operation.code_1,
+                            name_1: csl_operation.name_1 || '',
+                            code_2: csl_operation.code_2,
+                            name_2: csl_operation.name_2 || '',
+                            code_3: csl_operation.code_3,
+                            name_3: csl_operation.name_3 || '',
+                            code_4: csl_operation.code_4,
+                            name_4: csl_operation.name_4 || ''
+                    }   
+                  })
+                }
+          })
+          return Array.isArray(convertedNomenclatures) ? convertedNomenclatures : convertedNomenclatures[0]
+        }
+        catch (error) {
+          throw new transformErrors.MongoToAlimentationApiError(`Erreur de conversion des nomenclatures "csl_operation" mongo`)
+        }
+      },
+      refPolluanteEau: mongoReferentiels => {
+        try {
+          let referentielsToConvert = Array.isArray(mongoReferentiels) ? mongoReferentiels : [mongoReferentiels]
+          let convertedReferentiels = referentielsToConvert.map(referentiel => {
+            return{ polluante_Eau: referentiel.polluante_eau.map(polluantEau => {
+              return { code: polluantEau.code, name: polluantEau.name || '', unit: polluantEau.unit }  
+            })
+            }
+          })
+          return Array.isArray(convertedReferentiels) ? convertedReferentiels : convertedReferentiels[0]
+        }
+        catch (error) {
+          throw new transformErrors.MongoToDiffusionApiError(`Erreur de conversion des référentiels mongo`)
+        }
+      },
+      refPort: mongoReferentiels => {
+        try {
+          let referentielsToConvert = Array.isArray(mongoReferentiels) ? mongoReferentiels : [mongoReferentiels]
+          let convertedReferentiels = referentielsToConvert.map(referentiel => {
+            return{ port: referentiel.port.map(port => { 
+              return {code: port.code,
+                      name: port.name,
+                      mca_code: port.mca_code,
+                      mca_name: port.mca_name }   
+              })
+            }
+          })
+          return Array.isArray(convertedReferentiels) ? convertedReferentiels : convertedReferentiels[0]
+        }
+        catch (error) {
+          throw new transformErrors.MongoToDiffusionApiError(`Erreur de conversion des référentiels mongo`)
+        }
+      },
+      refStationAir: mongoReferentiels => {
+        try {
+          let referentielsToConvert = Array.isArray(mongoReferentiels) ? mongoReferentiels : [mongoReferentiels]
+          let convertedReferentiels = referentielsToConvert.map(referentiel => {
+            return{ 
+              station_air: referentiel.station_air.map(station_air => { 
+                return {code: station_air.code,
+                        name: station_air.name,
+                        code_zas: station_air.code_zas,
+                        name_zas: station_air.name_zas,
+                        commune: station_air.commune,
+                        aasqa: station_air.aasqa,
+                        location: { type: station_air.location.type, coordinates: { longitude : station_air.location.coordinates[0], latitude: station_air.location.coordinates[1], altitude: station_air.location.coordinates[2] }},
+                        validity: {start: station_air.validity.start, end: station_air.validity.end || ''},
+                        sector_type: station_air.sector_type,
+                        millesime: station_air.millesime,
+                        impact_pm10: station_air.impact_pm10,
+                        impact_no2: station_air.impact_no2,
+                        impact_o3: station_air.impact_o3,
+                        impact_so2: station_air.impact_so2,
+                        impact_pm25: station_air.impact_pm25,
+                        impact_co: station_air.impact_co
+                }  
+              })
+            }
+          })
+          return Array.isArray(convertedReferentiels) ? convertedReferentiels : convertedReferentiels[0]
+        }
+        catch (error) {
+          throw new transformErrors.MongoToDiffusionApiError(`Erreur de conversion des référentiels mongo`)
+        }
+      },
+      refStationEsu: mongoReferentiels => {
+        try {
+          let referentielsToConvert = Array.isArray(mongoReferentiels) ? mongoReferentiels : [mongoReferentiels]
+          let convertedReferentiels = referentielsToConvert.map(referentiel => {
+            return{
+                    station_esu: referentiel.station_esu.map(station_esu => { 
+                      return {code: station_esu.code,
+                              location: { type: station_esu.location.type, coordinates: { longitude : station_esu.location.coordinates[0], latitude: station_esu.location.coordinates[1]}},
+                      }   
+                    })
+                  }
+            })
+            return Array.isArray(convertedReferentiels) ? convertedReferentiels : convertedReferentiels[0]
+        }
+          catch (error) {
+            throw new transformErrors.MongoToDiffusionApiError(`Erreur de conversion des référentiels mongo`)
+          }
+      },
       datasets: mongoDatasets => {
         try {
           let datasetsToConvert = Array.isArray(mongoDatasets) ? mongoDatasets : [mongoDatasets]

@@ -12,6 +12,15 @@ router.route('/swagger.json')
     (req, res, next) => res.json(swaggerGlobalDocument)
   )
 
+/**
+ * ${basePath_intra}/v1/referentiels routes
+ */
+router.use(require('./referentiels'))
+
+/**
+ * ${basePath_intra}/v1/nomenclatures routes
+ */
+router.use(require('./nomenclatures'))
 
 /**
  * ${basePath_inter}/v1/datasets routes
