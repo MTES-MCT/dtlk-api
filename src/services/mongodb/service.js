@@ -65,7 +65,6 @@ let mongoService = {
       try {
         let polluante_eau = await MongoRefsPolluante_eau.find({})
         let referentiels = { polluante_eau : polluante_eau }
-        console.log(referentiels)
         return referentiels
       }
       catch (error) {

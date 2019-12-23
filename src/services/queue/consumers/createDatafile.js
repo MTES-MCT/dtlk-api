@@ -31,7 +31,7 @@ let createDatafileConsumer =  queue.process('createDatafile', 1 , async function
 
     job.progress(4, 100, commons.result.update(result, { step: `Traitement des entêtes - démarrage` }))
     let { headers, columns } = await commons.file.retrieveHeadersAndColumns(job.data.tokenFile)
-    job.progress(5, 100, commons.result.update(result, { step: `Traitement des entêtes - fin`, progress: 5, headers: headers, columns: columns })) // => result.headers = [{ order, description, type, unit, name }] and result.columns = [{ name, mapping, description, type }]
+    job.progress(5, 100, commons.result.update(result, { step: `Traitement des entêtes - fin`, progress: 5, headers: headers, columns: columns })) // => result.headers = [{ order, description, type, unit, name }] and result.columns = [{ name, mapping, description, type, unit }]
 
     job.progress(5, 100, commons.result.update(result, { step: `Traitement du fichier - démarrage` }))
     await commons.file.process(job, result.split.totalChunks, result.split.totalLines, result.split.linesByChunk, result.headers, tempCollectionNameMongo, result)

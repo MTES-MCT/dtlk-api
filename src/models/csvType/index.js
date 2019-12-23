@@ -13,7 +13,7 @@ module.exports = {
     if (header === 'trimestre') return require('./interval/trimestre')
     if (header === 'annee') return require('./interval/annee')
     // nomenclature
-    if (header === 'ref_bilanenergie_nomenclature') return require('./nomenclature/bilanernergie')
+    if (header === 'ref_bilanenergie_nomenclature') return require('./nomenclature/bilanenergie')
     if (header === 'ref_csl_filiere') return require('./nomenclature/csl_filiere')
     if (header.match(/ref_csl_operation_\d/)) return require('./nomenclature/csl_operation_p')(header.match(/ref_csl_operation_(\d)/)[1])
     // referentiel

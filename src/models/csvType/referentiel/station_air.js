@@ -50,5 +50,14 @@ module.exports = {
     typeColumns[name + '_LATITUDE'] = 'number'
     typeColumns[name + '_ALTITUDE'] = 'number'
     return typeColumns
+  },
+  returnUnitColumnsObject: (name, unit) => {
+    let unitColumns = {}
+    unitColumns[name + '_CODE'] = unit
+    unitColumns[name + '_LIBELLE'] = unit
+    unitColumns[name + '_LONGITUDE'] = unit
+    unitColumns[name + '_LATITUDE'] = unit
+    unitColumns[name + + '_ALTITUDE'] = unit
+    return unitColumns
   }
 }

@@ -40,5 +40,11 @@ module.exports = {
     typeColumns[name + '_LO_CODE'] = 'text'
     typeColumns[name + '_LIBELLE'] = 'text'
     return typeColumns
+  },
+  returnUnitColumnsObject: (name, unit) => {
+    let unitColumns = {}
+    unitColumns[name + '_LO_CODE'] = unit
+    unitColumns[name + '_LIBELLE'] = unit
+    return unitColumns
   }
 }

@@ -44,5 +44,12 @@ module.exports = {
     typeColumns[name + '_LIBELLE_POLLUANT'] = 'text'
     typeColumns[name + '_UNITE_POLLUANT'] = 'text'
     return typeColumns
+  },
+  returnUnitColumnsObject: (name, unit) => {
+    let unitColumns = {}
+    unitColumns[name + '_CODE_POLLUANT'] = unit
+    unitColumns[name + '_LIBELLE_POLLUANT'] = unit
+    unitColumns[name + '_UNITE_POLLUANT'] = unit
+    return unitColumns
   }
 }

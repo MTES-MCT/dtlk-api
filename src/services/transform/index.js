@@ -657,7 +657,7 @@ let transform = {
                 millesime.date_diffusion = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).date_diffusion
                 millesime.heure_diffusion = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).heure_diffusion
                 millesime.rows = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).rows
-                millesime.columns = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type } ))
+                millesime.columns = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type, unit: column.unit } )),
                 apiDatafile.millesimes.push(millesime)
               }
               apiDataset.datafiles.push(apiDatafile)
@@ -729,7 +729,7 @@ let transform = {
               millesime.date_diffusion = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).date_diffusion
               millesime.heure_diffusion = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).heure_diffusion
               millesime.rows = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).rows
-              millesime.columns = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type } ))
+              millesime.columns = millesimesDatafile.find(info => info.millesime === listMillesime[i-1]).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type, unit: column.unit } )),
               apiDatafile.millesimes.push(millesime)
             }
             if (mongoDatafile.dataset.frequency_date) apiDatafile.dataset.frequency_date = mongoDatafile.dataset.frequency_date
@@ -772,7 +772,7 @@ let transform = {
             date_diffusion: millesimesDatafile.find(info => info.millesime === millesime).date_diffusion,
             heure_diffusion: millesimesDatafile.find(info => info.millesime === millesime).heure_diffusion,
             rows: millesimesDatafile.find(info => info.millesime === millesime).rows,
-            columns: millesimesDatafile.find(info => info.millesime === millesime).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type } )),
+            columns: millesimesDatafile.find(info => info.millesime === millesime).columns.map(column => ( { name: column.name, description: column.description, filters: rowColumnsFilters[column.type], mapping: column.mapping, type: column.type, unit: column.unit } )),
             dataset: {
               id: String(mongoDatafile.dataset._id),
               title: mongoDatafile.dataset.title,

@@ -35,5 +35,10 @@ module.exports = {
     let typeColumns = {}
     typeColumns[name] = 'boolean'
     return typeColumns
+  },
+  returnUnitColumnsObject: (name, unit) => {
+    let unitColumns = {}
+    unitColumns[name] = unit
+    return unitColumns
   }
 }

@@ -43,6 +43,12 @@ module.exports = p => {
       typeColumns[name + '_CODE_OPERATION'] = 'text'
       typeColumns[name + '_LIBELLE_OPERATION'] = 'text'
       return typeColumns
+    },
+    returnUnitColumnsObject: (name, unit) => {
+      let unitColumns = {}
+      unitColumns[name + '_CODE_OPERATION'] = unit
+      unitColumns[name + '_LIBELLE_OPERATION'] = unit
+      return unitColumns
     }
   }
 }

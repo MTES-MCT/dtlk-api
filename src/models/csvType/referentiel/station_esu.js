@@ -43,5 +43,12 @@ module.exports = {
     typeColumns[name + '_LONGITUDE'] = 'number'
     typeColumns[name + '_LATITUDE'] = 'number'
     return typeColumns
+  },
+  returnUnitColumnsObject: (name, unit) => {
+    let unitColumns = {}
+    unitColumns[name + '_CODE'] = unit
+    unitColumns[name + '_LONGITUDE'] = unit
+    unitColumns[name + '_ALTITUDE'] = unit
+    return unitColumns
   }
 }

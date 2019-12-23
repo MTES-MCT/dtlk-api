@@ -13,16 +13,17 @@ module.exports = {
       let withColumnName = res.locals.csvCriteria.withColumnName
       // get the flag withColumnDescription
       let withColumnDescription = res.locals.csvCriteria.withColumnDescription
-
+      // get the flag withColumnUnit
+      let withColumnUnit = res.locals.csvCriteria.withColumnUnit
       // set selectable columns
       let allColumns = datafile.columns
       let columns = res.locals.csvCriteria.columns ? allColumns.filter(column => res.locals.csvCriteria.columns.includes(column.name)) : allColumns
-
       // get the columns name
       let columnsName = withColumnName ? columns.map(column => column.name) : []
       // get the columns description
       let columnsDescription = withColumnDescription ? columns.map(column => column.description) : []
-
+      // get the columns description
+      let columnsUnit = withColumnUnit ? columns.map(column => column.unit) : []
       // flag: streaming started ?
       let started = false
 
@@ -46,6 +47,7 @@ module.exports = {
 
       // write first lines if asked
       if (withColumnDescription) res.write(arrayToCsvRow(columnsDescription))
+      if (withColumnUnit) res.write(arrayToCsvRow(columnsUnit))
       if (withColumnName) res.write(arrayToCsvRow(columnsName))
 
       // create aggragation cursor (it's a readbale stream)

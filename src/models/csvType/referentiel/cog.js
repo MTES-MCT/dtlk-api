@@ -63,6 +63,12 @@ module.exports = header => {
       typeColumns[`${ name }_CODE_INSEE${ extra_name }`] = 'text'
       typeColumns[`${ name }_LIBELLE${ extra_name }`] = 'text'
       return typeColumns
+    },
+    returnUnitColumnsObject: (name, unit) => {
+      let unitColumns = {}
+      unitColumns[`${ name }_CODE_INSEE${ extra_name }`] = unit
+      unitColumns[`${ name }_LIBELLE${ extra_name }`] = unit
+      return unitColumns
     }
   }
 }

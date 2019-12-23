@@ -28,5 +28,10 @@ module.exports = {
     let typeColumns = {}
     typeColumns[name] = 'text'
     return typeColumns
+  },
+  returnUnitColumnsObject: (name, unit) => {
+    let unitColumns = {}
+    unitColumns[name] = unit
+    return unitColumns
   }
 }

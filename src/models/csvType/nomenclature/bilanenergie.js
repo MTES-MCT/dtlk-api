@@ -60,5 +60,16 @@ module.exports = {
     typeColumns[name + '_TYPE_DONNEE'] = 'text'
     typeColumns[name + '_TYPE_FLUX'] = 'text'
     return typeColumns
+  },
+  returnUnitColumnsObject: (name, unit) => {
+    let unitColumns = {}
+    unitColumns[name + '_CODE'] = unit
+    unitColumns[name + '_LIBELLE'] = unit
+    unitColumns[name + '_ENERGIE'] = unit
+    unitColumns[name + '_UNITE'] = unit
+    unitColumns[name + '_NIVEAU_GEOGRAPHIQUE'] = unit
+    unitColumns[name + '_TYPE_DONNEE'] = unit
+    unitColumns[name + '_TYPE_FLUX'] = unit
+    return unitColumns
   }
 }

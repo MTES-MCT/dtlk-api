@@ -281,7 +281,6 @@ let api = {
           millesimes_info[indexMillesimeToReplaced] = { millesime: millesime, rows: rows, columns: columns }
      
           }
-          console.log( millesimes_info[indexMillesimeToReplaced])
           metadata.extras.datalake_millesimes_info = JSON.stringify(millesimes_info)
           return await api.resources.update.metadata(apiKey, datasetId, datafileRid, metadata)
         }

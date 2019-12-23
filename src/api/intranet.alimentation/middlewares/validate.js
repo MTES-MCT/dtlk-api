@@ -276,7 +276,6 @@ module.exports = {
   uploadedFileNameInHeader: [
     headers(uploadedFileName),
     (req, res, next) => {
-      console.log(req.body)
       let re = /(?:\.([^.]+))?$/
       let ext = re.exec(req.headers['x-uploadedfile-name'])[1]
       let allowedExtensions = require('../../../env').uploadedFiles.allowedExtensions

@@ -88,6 +88,7 @@ let specs = {
             parameters: [
               { $ref: `#/parameters/withColumnName` },
               { $ref: `#/parameters/withColumnDescription` },
+              { $ref: `#/parameters/withColumnUnit` },
               { $ref: `#/parameters/orderBy` },
               { $ref: `#/parameters/columns`}
             ].concat(filterParameters),
@@ -551,6 +552,14 @@ let specs = {
           required: true,
           type: `boolean`,
           default: true
+        },
+        withColumnUnit: {
+          name: `withColumnUnit`,
+          in: `query`,
+          description: `faut-il ajouter l'unité des colonnes en entête du fichier csv ?`,
+          required: true,
+          type: `boolean`,
+          default: false
         },
         orderBy: {
           name: `orderBy`,
