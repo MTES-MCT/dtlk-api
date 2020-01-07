@@ -586,6 +586,15 @@ let mongoService = {
     }
   },
   rows: {
+    get: async (rid,millesime) => {
+      try {
+        let MongoRow = row(`${ rid }_${ millesime }`)
+        let RowContent = await MongoRow.find()
+        return { data: RowContent }
+      } catch (error) {
+        handleError(error, { type: 'ServerError', message: `Erreur interne: récupération des données` })
+      }
+    },
     exists: async collectionName => {
       for (let collection of await hubConnection.db.listCollections().toArray()) {
         if (collection.name === `rows_${ collectionName }`) return true

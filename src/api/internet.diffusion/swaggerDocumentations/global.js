@@ -256,6 +256,25 @@ module.exports = {
             '500': { $ref: `#/responses/serverErrorResponse` }
           }
         }
+      },
+      '/v1/datafiles/{rid}/json': {
+        get: {
+          tags: [`datafiles`],
+          summary: `Télécharger en JSON les données d'un millésime d'un fichiers de données (identifiée par son rid et son numéro de millésime)`,
+          description: `Cette opération permet de récupérer au format json le millésime d'un fichier de données identifié par son rid et son numéro de millésime. Si le millésime n'est pas soumis, le dernier millésime du fichier de données est renvoyé.`,
+          operationId: `getdatafilemillesimejson`,
+          parameters: [
+            { $ref: `#/parameters/datafileRid` },
+            { $ref: `#/parameters/datafileMillesime` }
+          ],
+          produces: [`text/json; charset=utf-8`],
+          responses: {
+            '200': { $ref: `#/responses/datafileMillesimeJsonResponse` },
+            '400': { $ref: `#/responses/validationErrorResponse` },
+            '404': { $ref: `#/responses/notFoundErrorResponse` },
+            '500': { $ref: `#/responses/serverErrorResponse` }
+          }
+        }
       }
     },
     definitions: {
@@ -1579,6 +1598,10 @@ module.exports = {
       },
       datafileMillesimeCsvResponse: {
         description: `Réponse avec le millésime du fichier de données au format csv`,
+        schema: { type: `file` }
+      },
+      datafileMillesimeJsonResponse: {
+        description: `Réponse avec le millésime du fichier de données au format JSON`,
         schema: { type: `file` }
       },
       datafileMillesimeRowsResponse: {
