@@ -17,7 +17,7 @@ module.exports = {
     try {
       let { data } = await mongoService.rows.get(res.locals.datafileMillesimed.rid, res.locals.datafileMillesimed.millesime)
       // file name
-      let fileName = `${ res.locals.datafileMillesimed.title}_${ res.locals.datafileMillesimed.millesime}`
+      let fileName = `${ res.locals.datafileMillesimed.title}_millesime_${ res.locals.datafileMillesimed.millesime}`
       // set header for a csv file
       res.set({ 'Content-Disposition': `attachment; filename="${ filenamify(fileName) }.json"`, 'Content-Type': 'text/json' })
       // write data to file
