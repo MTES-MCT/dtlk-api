@@ -19,6 +19,7 @@ let row = require('./hub/row')
 let bcrypt = require('bcrypt-nodejs')
 
 let handleError = (error, defaultError) => {
+    console.error(error)
   if (error.constructor.name === 'MongoNotFoundError') {
    throw error
   }
