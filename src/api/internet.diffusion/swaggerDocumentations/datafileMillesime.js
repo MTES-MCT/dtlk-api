@@ -41,7 +41,9 @@ let specs = {
       tags: [
         { name: `metadata`, description: `Opérations sur les métadonnées du fichier` },
         { name: `rows`, description: `Opérations sur les lignes du fichier` },
-        { name: `csv`, description: `Opérations sur les lignes du fichier` }
+        { name: `csv`, description: `Opérations sur les lignes du fichier` },
+        { name: `referentiels`, description: `Opérations sur les référentiels utilisés par le Datalake` },
+        { name: `nomenclatures`, description: `Opérations sur les nomenclatures utilisés par le Datalake` }
       ],
       produces: [`application/json`, `text/csv; charset=utf-8`],
       paths: {
@@ -97,6 +99,110 @@ let specs = {
               '200': { $ref: `#/responses/datafileMillesimeCsvResponse` },
               '400': { $ref: `#/responses/validationErrorResponse` },
               '500': { $ref: `#/responses/serverErrorResponse` }
+            }
+          }
+        },
+        '/v1/referentiels/polluant_Eau': {
+          get: {
+            tags: [`referentiels`],
+            summary: `Lister tous les référentiels de type " polluant_Eau " disponibles`,
+            description: `Permet d'obtenir la liste des référentiels de type " polluant_Eau " disponibles dans le Datalake`,
+            operationId: `list_refs_polluant_Eau`,
+            produces: [`application/json`],
+            responses: {
+              '200': { $ref: `#/responses/listRefPolluantEauResponse` },
+              default: { $ref: `#/responses/serverErrorResponse` }
+            }
+          }
+        },
+        '/v1/referentiels/port': {
+          get: {
+            tags: [`referentiels`],
+            summary: `Lister tous les référentiels de type " port " disponibles`,
+            description: `Permet d'obtenir la liste des référentiels de type " port " disponibles dans le Datalake`,
+            operationId: `list_refs_port`,
+            produces: [`application/json`],
+            responses: {
+              '200': { $ref: `#/responses/listRefPortResponse` },
+              default: { $ref: `#/responses/serverErrorResponse` }
+            }
+          }
+        },
+        '/v1/referentiels/station_Air': {
+          get: {
+            tags: [`referentiels`],
+            summary: `Lister tous les référentiels de type " station_Air " disponibles`,
+            description: `Permet d'obtenir la liste des référentiels de type " station_Air " disponibles dans le Datalake`,
+            operationId: `list_refs_station_Air`,
+            produces: [`application/json`],
+            responses: {
+              '200': { $ref: `#/responses/listRefStationAirResponse` },
+              default: { $ref: `#/responses/serverErrorResponse` }
+            }
+          }
+        },
+        '/v1/referentiels/station_Esu': {
+          get: {
+            tags: [`referentiels`],
+            summary: `Lister tous les référentiels de type " station_Esu " disponibles`,
+            description: `Permet d'obtenir la liste des référentiels de type " station_Esu " disponibles dans le Datalake`,
+            operationId: `list_refs_station_Esu`,
+            produces: [`application/json`],
+            responses: {
+              '200': { $ref: `#/responses/listRefrefStationEsuResponse` },
+              default: { $ref: `#/responses/serverErrorResponse` }
+            }
+          }
+        },
+        '/v1/referentiels/allTags': {
+          get: {
+            tags: [`referentiels`],
+            summary: `Lister tous les mots-clé disponibles`,
+            description: `Permet d'obtenir la liste des mot-clés autorisés dans le Datalake`,
+            operationId: `list_allTags`,
+            produces: [`application/json`],
+            responses: {
+              '200': { $ref: `#/responses/listTagsResponse` },
+              default: { $ref: `#/responses/serverErrorResponse` }
+            }
+          }
+        },
+        '/v1/nomenclatures/bilanEnergie': {
+          get: {
+            tags: [`nomenclatures`],
+            summary: `Lister tous les nomenclatures de type " bilanEnergie " disponibles `,
+            description: `Permet d'obtenir la liste des nomenclatures de type " bilanEnergie " dans le Datalake`,
+            operationId: `list_nomenclatures_bilanEnergie`,
+            produces: [`application/json`],
+            responses: {
+              '200': { $ref: `#/responses/listNomencBilanEnergieResponse` },
+              default: { $ref: `#/responses/serverErrorResponse` }
+            }
+          }
+        },
+        '/v1/nomenclatures/csl_filiere': {
+          get: {
+            tags: [`nomenclatures`],
+            summary: `Lister tous les nomenclatures de type " csl_filiere " disponibles `,
+            description: `Permet d'obtenir la liste des nomenclatures de type " csl_filiere " dans le Datalake`,
+            operationId: `list_nomenclatures_csl_filiere`,
+            produces: [`application/json`],
+            responses: {
+              '200': { $ref: `#/responses/listNomencCslFiliereResponse` },
+              default: { $ref: `#/responses/serverErrorResponse` }
+            }
+          }
+        },
+        '/v1/nomenclatures/csl_operation': {
+          get: {
+            tags: [`nomenclatures`],
+            summary: `Lister tous les nomenclatures de type " csl_operation " disponibles `,
+            description: `Permet d'obtenir la liste des nomenclatures de type " csl_operation " dans le Datalake`,
+            operationId: `list_nomenclatures_csl_operation`,
+            produces: [`application/json`],
+            responses: {
+              '200': { $ref: `#/responses/listNomencCslOperationResponse` },
+              default: { $ref: `#/responses/serverErrorResponse` }
             }
           }
         }
@@ -515,6 +621,480 @@ let specs = {
               example: `Erreur interne au serveur`
             }
           }
+        },
+        ListRefPolluantEau: {
+          type: `array`,
+          description: `Liste des referentiels`,
+          items: { $ref: `#/definitions/refPolluantEau` }
+        },
+        ListRefPort: {
+          type: `array`,
+          description: `Liste des referentiels`,
+          items: { $ref: `#/definitions/refPort` }
+        },
+        ListRefStationAir: {
+          type: `array`,
+          description: `Liste des referentiels`,
+          items: { $ref: `#/definitions/refStationAir` }
+        },
+        ListRefrefStationEsu: {
+          type: `array`,
+          description: `Liste des referentiels`,
+          items: { $ref: `#/definitions/refStationEsu` }
+        },
+        ListTags: {
+          type: `array`,
+          description: `Liste de mots-clé`,
+          items: { $ref: `#/definitions/listAllTags` }
+        },
+        PolluantEau: {
+          type: `object`,
+          description: `nomenclature PolluantEau`,
+          required: [`code`, `unit`],
+          properties: {
+            code: {
+              description: `Identifiant`,
+              type: `string`,
+              example: `1109`
+            },
+            name: {
+              description: `Nom de la polluant d'eau`,
+              type: `string`,
+              example: `Atrazine déisopropyl`
+            },
+            unit: {
+              description: `unité de la polluant d'eau`,
+              type: `string`,
+              example: `µg/L`
+            }
+          }
+        },
+        Port: {
+          type: `object`,
+          description: `référentiel Port`,
+          required: [`mca_code`,`mca_name`,`code`, `name`],
+          properties: {
+            mca_code: {
+              description: `Code MCA`,
+              type: `string`,
+              example: `FR01`
+            },
+            mca_name: {
+              description: `Nom MCA`,
+              type: `string`,
+              example: `FRANCE: Atlantic and North Sea`
+            },
+            code: {
+              description: `Identifiant`,
+              type: `string`,
+              example: `FRBOL`
+            },
+            name: {
+              description: `Nom du port`,
+              type: `string`,
+              example: `Boulogne-sur-Mer`
+            }
+          }
+        },
+        Location: {
+          type: `object`,
+          description: `localisation`,
+          required: [`type`, `coordinates`],
+          properties: {
+            type: {
+              description: `Le type de l'mplacement`,
+              type: `string`,
+              enum: [`Point`],
+              example: `Point`
+            },
+            coordinates: {
+              type: `object`,
+              description: `les coordonnées de la référence`,
+              required: [`longitude`, `latitude`],
+              properties: {
+                longitude: {
+                  description: `La longitude`,
+                  type: `float`,
+                  example: 1.4035470518
+                },
+                latitude: {
+                  description: `La latitude`,
+                  type: `float`,
+                  example: 49.3677071211
+                },
+                altitude: {
+                  description: `L'altitude'`,
+                  type: `float`,
+                  example: 118
+                },
+              }
+            }
+          }
+        },
+        Validity: {
+          type: `object`,
+          description: `période de validité`,
+          required: [`start`],
+          properties: {
+            start: {
+              description: `Date de début de la validité`,
+              type: `date-time`,
+              example: `2018-01-26T21:06:55.277Z`
+            },
+            end: {
+              description: `Date de fin de la validité`,
+              type: `date-time`,
+              example: `2019-01-26T21:06:55.277Z`
+            },
+          }
+        },
+        StationAir: {
+          type: `object`,
+          description: `référentiel station_air`,
+          required: [`code`, `name`, `code_zas`, `code_zas`, `name_zas`, `commune`, `aasqa`, `location`, `validity`, `sector_type`, `millesime`],
+          properties: {
+            code: {
+              description: `Identifiant`,
+              type: `string`,
+              example: `01005`
+            },
+            name: {
+              description: `Nom`,
+              type: `string`,
+              example: `Hayange`
+            },
+            code_zas: {
+              description: `Code ZAS`,
+              type: `string`,
+              example: `FR01A01`
+            },
+            name_zas: {
+              description: `Nom ZAS`,
+              type: `string`,
+              example: `LORRAINE-METZ`
+            },
+            commune: {
+              description: `Code ZAS`,
+              type: `string`,
+              example: `57306`
+            },
+            aasqa: {
+              description: `Nom ZAS`,
+              type: `string`,
+              example: `AIR LORRAINE (04)`
+            },
+            location: {
+              type: `array`,
+              description: ``,
+              items: { $ref: `#/definitions/Location` }
+            },
+            validity: {
+              type: `array`,
+              description: `la durée de validité`,
+              items: { $ref: `#/definitions/Validity` }
+            },
+            sector_type: {
+              description: `le type de secteur`,
+              type: `string`,
+              example: `sector_type`
+            },
+            millesime: {
+              description: `le millésime du réferentiel`,
+              type: `Integer`,
+              example: 2017
+            },
+            impact_pm10: {
+              description: `l'impact en PM10`,
+              type: `string`,
+              example: `fond`
+            },
+            impact_no2: {
+              description: `l'impact en No2`,
+              type: `string`,
+              example: `fond`
+            },
+            impact_o3: {
+              description: `l'impact en O3`,
+              type: `string`,
+              example: `fond`
+            },
+            impact_so2: {
+              description: `l'impact en So2`,
+              type: `string`,
+              example: `fond`
+            },
+            impact_pm25: {
+              description: `l'impact en PM25`,
+              type: `string`,
+              example: `fond`
+            },
+            impact_co: {
+              description: `l'impact en Co`,
+              type: `string`,
+              example: `fond`
+            }
+          }
+        },
+        StationEsu: {
+          type: `object`,
+          description: `référentiel StationEsu`,
+          required: [`code`,`location`],
+          properties: {
+            location: {
+              type: `array`,
+              description: ``,
+              items: { $ref: `#/definitions/Location` }
+            },
+            code: {
+              description: `Identifiant`,
+              type: `string`,
+              example: `K021510`
+            }
+          }
+        },
+        refPolluantEau:{
+          type: `object`,
+          description: `La liste des Référentiel de type " polluante_eau "`,
+          required: [`polluant_eau`],
+          properties: {
+            polluant_eau: {
+              type: `array`,
+              description: `Référentiel polluant_eau`,
+              items: { $ref: `#/definitions/PolluantEau` }
+            }
+          }
+        },
+        refPort:{
+          type: `object`,
+          description: `La liste des Référentiel de type " Port "`,
+          required: [`port`],
+          properties: {
+            Port: {
+              type: `array`,
+              description: `Référentiel port`,
+              items: { $ref: `#/definitions/Port` }
+            }
+          }
+        },
+        refStationAir:{
+          type: `object`,
+          description: `La liste des Référentiel de type " station_air "`,
+          required: [`station_air`],
+          properties: {
+            station_air: {
+              type: `array`,
+              description: `Référentiel station_air`,
+              items: { $ref: `#/definitions/StationAir` }
+            }
+          }
+        },
+        refStationEsu:{
+          type: `object`,
+          description: `La liste des Référentiel de type " station_esu "`,
+          required: [`station_esu`],
+          properties: {
+            station_esu: {
+              type: `array`,
+              description: `Référentiel station_esu`,
+              items: { $ref: `#/definitions/StationEsu` }
+            }
+          }
+        },
+        listAllTags:{
+          type: `object`,
+          description: `La liste des mots-clé du Datalake`,
+          required: [`Tag`],
+          properties: {
+            All_Tags: {
+              type: `array`,
+              description: `Liste de mots-clé`,
+              items: { $ref: `#/definitions/Tag` }
+            }
+          }
+        },
+        Tag: {
+          type: `object`,
+          description: `un mot-clé`,
+          required: [`value`, `display`, `topic`, `eurovoc`, `ecoplanet`],
+          properties: {
+            value: {
+              description: `Valeur de stockage dans udata du mot-clé`,
+              type: `string`,
+              example: `espace-urbain`
+            },
+            display: {
+              description: `Valeur d'affichage du mot-clé`,
+              type: `string`,
+              example: `espace urbain`
+            },
+            topic: {
+              description: `Thèmes auxquels appartient le mot-clé`,
+              type: `array`,
+              items: {
+                type: `string`,
+                description: `un thème`,
+                example: `Environnement`
+              }
+            },
+            eurovoc: {
+              description: `Correspondance eurovoc du mot-clé (peut-être vide)`,
+              type: `string`,
+              example: ``
+            },
+            ecoplanet: {
+              description: `Correspondance ecoplanet du mot-clé (peut-être vide)`,
+              type: `string`,
+              example: ``
+            }
+          }
+        },
+        ListNomencBilanEnergie: {
+          type: `array`,
+          description: `Liste des nomenclatures de type " BilanEnergie "`,
+          items: { $ref: `#/definitions/NomencBilanEnergie` }
+        },
+        ListNomencCslFiliere: {
+          type: `array`,
+          description: `Liste des nomenclatures de type " csl_filiere "`,
+          items: { $ref: `#/definitions/NomencCslFiliere` }
+        },
+        ListNomencCslOperation: {
+          type: `array`,
+          description: `Liste des nomenclatures de type " csl_peration "`,
+          items: { $ref: `#/definitions/NomencCslOperation` }
+        },
+        BilanEnergie: {
+          type: `object`,
+          description: `nomenclature BilanEnergie`,
+          required: [`code`, `name`, `unit`, `level`, `data_type`, `flow_type`],
+          properties: {
+            code: {
+              description: `Identifiant de la nomenclature`,
+              type: `string`,
+              example: `BE001`
+            },
+            name: {
+              description: `Nom du bilan d'energie`,
+              type: `string`,
+              example: `Production de pétrole brut`
+            },
+            unit: {
+              description: `unit du bilan d'energie`,
+              type: `string`,
+              example: `Mtep`
+            },
+            level: {
+              description: `Emplacement du bilan d'energie`,
+              type: `string`,
+              example: `Métropole`
+            },
+            flow_type: {
+              description: '',
+              type: `string`,
+              example: `Production primaire`
+            }
+          }
+        },
+        Csl_filiere: {
+          type: `object`,
+          description: `nomenclature csl_filiere`,
+          required: [`code`, `name`],
+          properties: {
+            code: {
+              description: `Identifiant de la nomenclature`,
+              type: `string`,
+              example: `FLT`
+            },
+            name: {
+              description: `Nom du csl_filiere`,
+              type: `string`,
+              example: `Ensemble des filières`
+            }
+          }
+        },
+        Csl_operation: {
+          type: `object`,
+          description: `nomenclature csl_operation`,
+          required: [`code_1`, `name_1`, `code_2`, `name_2`, `code_3`, `name_3`, `code_4`, `name_4`,],
+          properties: {
+            code_1: {
+              description: `Identifiant 1 de la nomenclature`,
+              type: `string`,
+              example: `OE`
+            },
+            name_1: {
+              description: `Nom 1 du csl_operation`,
+              type: `string`,
+              example: `Dépenses des occupants`
+            },
+            code_2: {
+              description: `Identifiant 2 de la nomenclature`,
+              type: `string`,
+              example: `OEO1`
+            },
+            name_2: {
+              description: `Nom 2 du csl_operation`,
+              type: `string`,
+              example: `Loyers (ou redevances) payé par les occupants`
+            },
+            code_3: {
+              description: `Identifiant 3 de la nomenclature`,
+              type: `string`,
+              example: `OEO1`
+            },
+            name_3: {
+              description: `Nom 3 du csl_operation`,
+              type: `string`,
+              example: `Loyers (ou redevances) payé par les occupants`
+            },
+            code_4: {
+              description: `Identifiant 4 de la nomenclature`,
+              type: `string`,
+              example: `OEO111`
+            },
+            name_4: {
+              description: `Nom 4 du csl_operation`,
+              type: `string`,
+              example: `Loyers réels`
+            }
+          }
+        },
+        NomencBilanEnergie:{
+          type: `object`,
+          description: `La liste des nomenclatures de type " BilanEnergie "`,
+          required: [`bilan_Energie`],
+          properties: {
+            bilan_Energie: {
+              type: `array`,
+              description: `Nomenclature bilan d'energie`,
+              items: { $ref: `#/definitions/BilanEnergie` }
+            }
+          }
+        },
+        NomencCslFiliere:{
+          type: `object`,
+          description: `La liste des nomenclatures de type " csl_filiere "`,
+          required: [`csl_filiere`],
+          properties: {
+            csl_filiere: {
+              type: `array`,
+              description: `Nomenclature csl_filiere`,
+              items: { $ref: `#/definitions/Csl_filiere` }
+            }
+          }
+        },
+        NomencCslOperation:{
+          type: `object`,
+          description: `La liste des nomenclatures de type " csl_operation "`,
+          required: [`csl_operation`],
+          properties: {
+  
+            csl_operation: {
+              type: `array`,
+              description: `Nomenclature csl_operation`,
+              items: { $ref: `#/definitions/Csl_operation` }
+            },
+          }
         }
       },
       parameters: {
@@ -608,6 +1188,38 @@ let specs = {
         serverErrorResponse: {
           description: `Réponse si erreur interne au serveur`,
           schema: { $ref: `#/definitions/ServerError` }
+        },
+        listRefPolluantEauResponse: {
+          description: `Réponse avec une liste de référentiels`,
+          schema: { $ref: `#/definitions/ListRefPolluantEau` }
+        },
+        listRefPortResponse: {
+          description: `Réponse avec une liste de référentiels`,
+          schema: { $ref: `#/definitions/ListRefPort` }
+        },
+        listRefStationAirResponse: {
+          description: `Réponse avec une liste de référentiels`,
+          schema: { $ref: `#/definitions/ListRefStationAir` }
+        },
+        listRefrefStationEsuResponse: {
+          description: `Réponse avec une liste de référentiels`,
+          schema: { $ref: `#/definitions/ListRefrefStationEsu` }
+        },
+        listTagsResponse: {
+          description: `Réponse avec une liste de mot-clés`,
+          schema: { $ref: `#/definitions/ListTags` }
+        },
+        listNomencBilanEnergieResponse: {
+          description: `Réponse avec une liste de nomenclatures de type " BilanEnergie "`,
+          schema: { $ref: `#/definitions/ListNomencBilanEnergie` }
+        },
+        listNomencCslFiliereResponse: {
+          description: `Réponse avec une liste de référentiels`,
+          schema: { $ref: `#/definitions/ListNomencCslFiliere` }
+        },
+        listNomencCslOperationResponse: {
+          description: `Réponse avec une liste de référentiels`,
+          schema: { $ref: `#/definitions/ListNomencCslOperation` }
         }
       },
       externalDocs: { description: `Infos supplémentaires`, url: `${ fullApiUrl }/more` }
