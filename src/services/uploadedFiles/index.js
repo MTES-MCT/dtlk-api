@@ -9,6 +9,7 @@ let { uploadedFiles: errors } = require('../errors')
 let pause = require('../../utils/pause')
 
 let handleError = (error, defaultError) => {
+  console.error(error)
   if (error.constructor.name === 'UploadedFilesNotFounfError') {
    throw error
   }

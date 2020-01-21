@@ -5,6 +5,7 @@ let { queue: errors } = require('../errors')
 let { uploadedFiles: { maxRetentionTime: uploadedFilesMaxRetentionTime } } = require('../../env')
 
 let handleError = (error, defaultError) => {
+  console.error(error)
   if (error.constructor.name === 'QueueJobNotFoundError') {
    throw error
   }

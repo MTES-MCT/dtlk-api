@@ -4,6 +4,7 @@ let { udata: errors } = require('../errors')
 let udata_api_url = udata_base_url + '/api/1'
 
 let handleError = (error, defaultError) => {
+  console.error(error)
   if (error.constructor.name === 'UdataNotFoundError') {
    return error
   }
