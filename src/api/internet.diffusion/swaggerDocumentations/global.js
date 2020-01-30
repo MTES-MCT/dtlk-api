@@ -275,6 +275,28 @@ module.exports = {
             '500': { $ref: `#/responses/serverErrorResponse` }
           }
         }
+      },
+      '/v1/datafiles/{rid}/xlsx': {
+        get: {
+          tags: [`datafiles`],
+          summary: `Télécharger en xlsx les données d'un millésime d'un fichiers de données (identifiée par son rid et son numéro de millésime)`,
+          description: `Cette opération permet de récupérer au format xlsx le millésime d'un fichier de données identifié par son rid et son numéro de millésime. Si le millésime n'est pas soumis, le dernier millésime du fichier de données est renvoyé.`,
+          operationId: `getdatafilemillesimexlsx`,
+          parameters: [
+            { $ref: `#/parameters/datafileRid` },
+            { $ref: `#/parameters/datafileMillesime` },
+            { $ref: `#/parameters/withColumnName` },
+            { $ref: `#/parameters/withColumnDescription` },
+            { $ref: `#/parameters/withColumnUnit` }
+          ],
+          produces: [`text/xlsx; charset=utf-8`],
+          responses: {
+            '200': { $ref: `#/responses/datafileMillesimeXlsxResponse` },
+            '400': { $ref: `#/responses/validationErrorResponse` },
+            '404': { $ref: `#/responses/notFoundErrorResponse` },
+            '500': { $ref: `#/responses/serverErrorResponse` }
+          }
+        }
       }
     },
     definitions: {
@@ -1352,7 +1374,7 @@ module.exports = {
             items: {
               type: `string`,
               description: `Un message d'erreur`,
-              example: `Le champ "page" est requis et doit être un entier strictement positif`
+              example: `Le champ "rid" est requis et doit être un entier strictement positif`
             }
           }
         }
@@ -1602,6 +1624,10 @@ module.exports = {
       },
       datafileMillesimeJsonResponse: {
         description: `Réponse avec le millésime du fichier de données au format JSON`,
+        schema: { type: `file` }
+      },
+      datafileMillesimeXlsxResponse: {
+        description: `Réponse avec le millésime du fichier de données au format Xlsx`,
         schema: { type: `file` }
       },
       datafileMillesimeRowsResponse: {

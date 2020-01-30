@@ -5,6 +5,7 @@ let querystring = require('../../../commons/middlewares/querystring')
 let validate = require('../../middlewares/validate')
 let datafiles = require('../../middlewares/datafiles')
 let csv = require('../../middlewares/csv')
+let xlsx = require('../../middlewares/xlsx')
 let rows = require('../../middlewares/rows')
 let excludeFieldsFromResponse = require('../../../commons/middlewares/excludeFieldsFromResponse')
 let responses = require('../../middlewares/responses')
@@ -77,6 +78,16 @@ router.route('/datafiles/:rid/csv')
     (req, res, next) => querystring.explodeColonsThenCommas(res.locals.datafileMillesimed.columns.map(column => column.name))(req, res, next),
     validate.csvOptionsInQuery,
     csv.stream
+  )
+/**
+* GET ${basePath_inter}/v1/datafiles/:rid/xlsx
+* api route: get xlsx of a millesime of a datafile
+*/
+router.route('/datafiles/:rid/xlsx')
+  .get(
+    (req, res, next) => querystring.explodeColonsThenCommas(res.locals.datafileMillesimed.columns.map(column => column.name))(req, res, next),
+    validate.xlsxOptionsInQuery,
+    xlsx.stream
   )
 /**
 * GET ${basePath_inter}/v1/datafiles/:rid/json

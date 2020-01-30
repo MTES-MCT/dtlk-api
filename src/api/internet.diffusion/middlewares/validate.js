@@ -113,6 +113,17 @@ let csvOptions = columns => {
       .error( errors => ( { message: `Le champ "columns" ne doit comporter que des colonnes autorisées ${ selectables.join(', ') }` } ) )
   }
 }
+let xlsxOptions = {
+    withColumnName: Joi.boolean().required()
+      .label('querystring.withColumnName ')
+      .error( errors => ( { message: 'Le champ "withColumnName " est requis et doit être égal à true ou false' } ) ),
+    withColumnDescription: Joi.boolean().required()
+      .label('querystring.withColumnDescription ')
+      .error( errors => ( { message: 'Le champ "withColumnDescription " est requis et doit être égal à true ou false' } ) ),
+    withColumnUnit: Joi.boolean().required()
+      .label('querystring.withColumnUnit ')
+      .error( errors => ( { message: 'Le champ "withColumnUnit " est requis et doit être égal à true ou false' } ) )
+}
 let rowsFilter = async (req, res, next) => {
   try {
     req.query.filters = {}
@@ -200,6 +211,14 @@ module.exports = {
     rowsFilter,
     (req, res, next) => {
       res.locals.csvCriteria = req.query
+      next()
+    }
+  ],
+  xlsxOptionsInQuery: [
+    (req, res, next) => query(xlsxOptions, { joi: { allowUnknown: true } })(req, res, next),
+    rowsFilter,
+    (req, res, next) => {
+      res.locals.xlsxCriteria = req.query
       next()
     }
   ],
