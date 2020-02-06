@@ -19,7 +19,9 @@ module.exports = {
     ServerError: nameMyErrorClass('QueueServerError'),
     JobNotFoundError: nameMyErrorClass('QueueJobNotFoundError'),
     JobRemoveError: nameMyErrorClass('QueueJobRemoveError'),
-    JobDatafileParseCsvError: nameMyErrorClass('QueueJobDatafileParseCsvError')
+    JobDatafileParseCsvError: nameMyErrorClass('QueueJobDatafileParseCsvError'),
+    JobTokenFileNotFoundError: nameMyErrorClass('QueueJobTokenFileNotFoundError')
+
   },
   transform: {
     KueToMongoError: nameMyErrorClass('TransformKueToMongoError'),

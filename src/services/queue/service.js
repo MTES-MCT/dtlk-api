@@ -111,6 +111,10 @@ let service = {
           queue.delayed(async (err, ids) => {
             for (let id of ids) {
               let job = await service.job.byId(id)
+
+              if (job && (job.data.file === undefined)) {
+                reject(new errors.JobTokenFileNotFoundError(`undefined Token In job with id ${ id }`))
+              }
               if (job && (job.data.file.token === tokenFile)) {
                 resolve(job)
               }
