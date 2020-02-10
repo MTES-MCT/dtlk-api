@@ -45,7 +45,6 @@ module.exports = {
     if (withColumnDescription) data.push(columnsDescription)
     if (withColumnUnit) data.push(columnsUnit)
     if (withColumnName) data.push(columnsName)
-    console.log("here")
     // set header for a xlsx file 
     res.set({ 'Content-Disposition': `attachment; filename="${ filenamify(datafile.title) }.xlsx"`})
 
@@ -58,6 +57,12 @@ module.exports = {
     cursor.on('data',doc => {
       let rows = []
       rows.push(arrayToCsvRow(Object.keys(doc).map(key => doc[key])).split(','))
+      /* Cast elements to number*/
+      rows[0].forEach(element => {
+        if(!(isNaN(parseFloat(element)))) {
+          rows[0][rows[0].indexOf(element)] = parseFloat(element) 
+        }
+      })
       /* Append row to worksheet*/
       XLSX.utils.sheet_add_aoa(ws, rows, {origin: -1});  
     })
