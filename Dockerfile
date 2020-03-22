@@ -26,13 +26,3 @@ CMD ["pm2-runtime", "pm2.json", "--only", "worker:replaceDatafileVersion"]
 CMD ["pm2-runtime", "pm2.json", "--only", "worker:sendMail"]
 CMD ["pm2-runtime", "pm2.json", "--only", "worker:csvToMongo"]
 CMD ["pm2-runtime", "pm2.json", "--only", "worker:uploadedFile"]
-
-FROM base as audit
-USER root
-RUN apt-get update && apt-get -y install ca-certificates
-ADD https://get.aquasec.com/microscanner /
-RUN chmod +x /microscanner
-ARG token
-RUN /microscanner NTZiYmRjOTdlNTEw --continue-on-failure
-run yarn audit --level critical
-
